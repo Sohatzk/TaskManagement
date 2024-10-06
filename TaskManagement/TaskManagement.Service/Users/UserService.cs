@@ -8,6 +8,19 @@ namespace TaskManagement.Service.Users
     {
         private readonly TaskManagementContext _db = db;
 
+        public async Task<UserView> GetUserAsync(string email, string password)
+        {
+            return await _db.Users
+                .Where(u => u.Email == email && u.Password == password)
+                .Select(u => new UserView
+                {
+                    FirstName = u.FirstName,
+                    LastName = u.LastName,
+                    Email = u.Email
+                })
+                .FirstOrDefaultAsync();
+        }
+
         public async Task<List<UserView>> GetUsersAsync()
         {
             return await _db.Users

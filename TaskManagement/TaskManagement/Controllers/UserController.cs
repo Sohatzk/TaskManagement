@@ -1,23 +1,19 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
 using TaskManagement.Controllers.Base;
 using TaskManagement.Service.Users;
-using TaskManagement.Storage.Views.Users;
+using Microsoft.AspNetCore.Mvc;
 
 namespace TaskManagement.Controllers
 {
-    public class UserController : BaseController
+    [Authorize]
+    public class UserController(IUserService userService) : BaseController
     {
-        private readonly IUserService _userService;
-
-        public UserController(IUserService userService)
-        {
-            _userService = userService;
-        }
+        private readonly IUserService _userService = userService;
 
         [HttpGet]
-        public async Task<ActionResult<List<UserView>>> GetUsers()
+        public async Task<IActionResult> GetUsers()
         {
-            return await _userService.GetUsersAsync();
+            return Ok(await _userService.GetUsersAsync());
         }
     }
 }
