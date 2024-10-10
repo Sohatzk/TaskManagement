@@ -10,12 +10,10 @@ builder.Services.AddAuthentication()
         CookieAuthenticationDefaults.AuthenticationScheme,
         o =>
         {
-            o.Cookie.HttpOnly = true;
             o.Cookie.SecurePolicy = CookieSecurePolicy.Always;
             o.Cookie.Name = "taskmanagementcookie";
             o.ExpireTimeSpan = TimeSpan.FromHours(1);
             o.SlidingExpiration = true;
-            o.Cookie.SameSite = SameSiteMode.None;
         });
 
 builder.Services.AddAuthorization();
@@ -46,9 +44,15 @@ builder.Services.AddScoped<IUserService, UserService>();
 
 var app = builder.Build();
 
+app.UseRouting();
+
 app.UseCors("AngularClient");
 app.UseAuthentication();
 app.UseAuthorization();
+
+app.UseEndpoints(_ => { });
+
+app.UseSpa(x => x.UseProxyToSpaDevelopmentServer("http://localhost:4200"));
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -58,8 +62,6 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
-app.UseAuthorization();
 
 app.MapControllers();
 
