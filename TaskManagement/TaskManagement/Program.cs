@@ -24,7 +24,7 @@ builder.Services.AddCors(options =>
         name: "AngularClient",
         policy =>
         {
-            policy.WithOrigins("http://localhost:4200");
+            policy.WithOrigins("https://localhost:4200");
             policy.AllowAnyMethod();
             policy.AllowAnyHeader();
             policy.AllowCredentials();
@@ -53,7 +53,6 @@ app.UseAuthorization();
 app.UseEndpoints(_ => { });
 
 app.UseSpa(x => x.UseProxyToSpaDevelopmentServer("http://localhost:4200"));
-
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {

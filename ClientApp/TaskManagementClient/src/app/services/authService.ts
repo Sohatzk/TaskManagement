@@ -17,11 +17,12 @@ export class AuthService {
             {
                 email: email,
                 password: password
-            });
+            },
+            { withCredentials: true });
     }
 
     public signOut() {
-        return this.httpClient.get(`${baseUrl}/logout`);
+        return this.httpClient.get(`${baseUrl}/logout`, { withCredentials: true });
     }
 
     public isLoggedIn(): Observable<boolean> {
@@ -36,6 +37,6 @@ export class AuthService {
     }
 
     public user() {
-        return this.httpClient.get<UserClaim[]>(`${baseUrl}/user`);
+        return this.httpClient.get<UserClaim[]>(`${baseUrl}/user`, { withCredentials: true });
     }
 }
