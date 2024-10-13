@@ -1,8 +1,6 @@
-﻿using TaskManagement.Storage.Entities.Base;
-
-namespace TaskManagement.Storage.Entities
+﻿namespace TaskManagement.Service.Users.Descriptors
 {
-    public class User : BaseEntity<Guid>
+    public class UserDescriptor
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }

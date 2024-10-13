@@ -4,33 +4,88 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using TaskManagement.Controllers.Base;
+using TaskManagement.Infrastructure;
 using TaskManagement.Models.Auth.In;
 using TaskManagement.Models.Auth.Out;
 using TaskManagement.Service.Users;
+using TaskManagement.Service.Users.Descriptors;
+using TaskManagement.Storage.Views.Users;
 
 namespace TaskManagement.Controllers
 {
-    public class AuthController(ILogger<AuthController> logger, IUserService userService) : BaseController
+    public class AuthController(
+        ILogger<AuthController> logger,
+        IUserService userService,
+        IPasswordHasher passwordHasher) : BaseController
     {
         private readonly ILogger<AuthController> _logger = logger;
         private readonly IUserService _userService = userService;
+        private readonly IPasswordHasher _passwordHasher = passwordHasher;
+
+        [AllowAnonymous]
+        [HttpPost("register")]
+        public async Task<IActionResult> Gerister(RegisterModel model)
+        {
+            if (model.Password != model.RepeatPassword)
+            {
+                return BadRequest("Provided passwords do not match");
+            }
+
+            var userExists = await _userService.UserExistsAsync(model.Email);
+            if (userExists)
+            {
+                return BadRequest("User with such email already exists");
+            }
+
+            var hashSalt = _passwordHasher.Hash(model.Password);
+
+            var userDescriptor = new UserDescriptor
+            {
+                FirstName = model.FirstName,
+                LastName = model.LastName,
+                Email = model.Email,
+                PasswordHash = hashSalt.hash,
+                PasswordSalt = hashSalt.salt
+            };
+
+            var userView = await _userService.CreateAsync(userDescriptor);
+
+            await SignInAsync(userView);
+
+            return Ok();
+        }
 
         [AllowAnonymous]
         [HttpPost("login")]
         public async Task<IActionResult> Login(LoginModel model)
         {
-            var user = await _userService.GetUserAsync(model.Email, model.Password);
-            if (user is null)
+            var userView = await _userService.GetUserAsync(model.Email);
+            if (userView is null)
             {
-                return BadRequest("Invalid credentials");
+                return BadRequest("User not found");
             }
 
+            var isVerified = _passwordHasher.Verify(model.Password, userView.PasswordHash, userView.PasswordSalt);
+
+            if (!isVerified)
+            {
+                return BadRequest("Invalid Password");
+            }
+
+            await SignInAsync(userView);
+
+            return Ok();
+        }
+
+        private async Task SignInAsync(UserView user)
+        {
             var claims = new Claim[]
             {
                 new("FistName", user.FirstName),
                 new("LastName", user.LastName),
                 new(ClaimTypes.Email, user.Email),
             };
+
             var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
 
             await HttpContext.SignInAsync(
@@ -40,8 +95,6 @@ namespace TaskManagement.Controllers
                 {
                     IsPersistent = true
                 });
-
-            return Ok();
         }
 
         [Authorize]
