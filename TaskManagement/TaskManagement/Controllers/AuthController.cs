@@ -24,7 +24,7 @@ namespace TaskManagement.Controllers
 
         [AllowAnonymous]
         [HttpPost("register")]
-        public async Task<IActionResult> Gerister(RegisterModel model)
+        public async Task<IActionResult> Register([FromBody] RegisterModel model)
         {
             if (model.Password != model.RepeatPassword)
             {
