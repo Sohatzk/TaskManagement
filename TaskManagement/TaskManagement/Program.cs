@@ -1,5 +1,8 @@
+using AutoMapper;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
+using TaskManagement.Infrastructure;
+using TaskManagement.Service.Infrastructure;
 using TaskManagement.Service.Users;
 using TaskManagement.Storage;
 
@@ -18,19 +21,6 @@ builder.Services.AddAuthentication()
 
 builder.Services.AddAuthorization();
 
-builder.Services.AddCors(options =>
-{
-    options.AddPolicy(
-        name: "AngularClient",
-        policy =>
-        {
-            policy.WithOrigins("http://localhost:4200");
-            policy.AllowAnyMethod();
-            policy.AllowAnyHeader();
-            policy.AllowCredentials();
-        });
-});
-
 // Add services to the container.
 
 builder.Services.AddControllers();
@@ -41,12 +31,17 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddSingleton<IPasswordHasher, PasswordHasher>();
+
+var config = new MapperConfiguration(cfg => {
+    cfg.AddProfile<DescriptorMapper>();
+    cfg.AddProfile<ViewMapper>();
+});
 
 var app = builder.Build();
 
 app.UseRouting();
 
-app.UseCors("AngularClient");
 app.UseAuthentication();
 app.UseAuthorization();
 
