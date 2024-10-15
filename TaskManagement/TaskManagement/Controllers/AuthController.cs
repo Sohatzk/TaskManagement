@@ -26,26 +26,21 @@ namespace TaskManagement.Controllers
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] RegisterModel model)
         {
-            if (model.Password != model.RepeatPassword)
-            {
-                return BadRequest("Provided passwords do not match");
-            }
-
             var userExists = await _userService.UserExistsAsync(model.Email);
             if (userExists)
             {
                 return BadRequest("User with such email already exists");
             }
 
-            var hashSalt = _passwordHasher.Hash(model.Password);
+            var (hash, salt) = _passwordHasher.Hash(model.Password);
 
             var userDescriptor = new UserDescriptor
             {
                 FirstName = model.FirstName,
                 LastName = model.LastName,
                 Email = model.Email,
-                PasswordHash = hashSalt.hash,
-                PasswordSalt = hashSalt.salt
+                PasswordHash = hash,
+                PasswordSalt = salt
             };
 
             var userView = await _userService.CreateAsync(userDescriptor);

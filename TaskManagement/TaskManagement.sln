@@ -3,11 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.11.35303.130
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskManagement", "TaskManagement\TaskManagement.csproj", "{2EEFD5B8-1FF6-43E7-A704-1FC4CE050E8E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TaskManagement", "TaskManagement\TaskManagement.csproj", "{2EEFD5B8-1FF6-43E7-A704-1FC4CE050E8E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskManagement.Service", "TaskManagement.Service\TaskManagement.Service.csproj", "{AFADFBD4-C232-4BD2-A396-C273DC1C380B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TaskManagement.Service", "TaskManagement.Service\TaskManagement.Service.csproj", "{AFADFBD4-C232-4BD2-A396-C273DC1C380B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskManagement.Storage", "TaskManagement.Storage\TaskManagement.Storage.csproj", "{3ED8E2D6-6908-4091-BBCD-86704153069F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TaskManagement.Storage", "TaskManagement.Storage\TaskManagement.Storage.csproj", "{3ED8E2D6-6908-4091-BBCD-86704153069F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskManagement.Shared", "TaskManagement.Shared\TaskManagement.Shared.csproj", "{58598A24-FCD3-44E9-BABF-43B3BAD62CE7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{3ED8E2D6-6908-4091-BBCD-86704153069F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3ED8E2D6-6908-4091-BBCD-86704153069F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3ED8E2D6-6908-4091-BBCD-86704153069F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{58598A24-FCD3-44E9-BABF-43B3BAD62CE7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{58598A24-FCD3-44E9-BABF-43B3BAD62CE7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{58598A24-FCD3-44E9-BABF-43B3BAD62CE7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{58598A24-FCD3-44E9-BABF-43B3BAD62CE7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
