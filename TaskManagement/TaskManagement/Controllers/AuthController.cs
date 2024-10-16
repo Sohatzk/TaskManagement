@@ -106,7 +106,7 @@ namespace TaskManagement.Controllers
             return Ok();
         }
 
-        [Authorize]
+        [AllowAnonymous]
         [HttpGet("user")]
         public IActionResult GetUser()
         {

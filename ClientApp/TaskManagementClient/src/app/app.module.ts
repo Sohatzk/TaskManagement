@@ -1,14 +1,16 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, provideHttpClient, withInterceptors } from '@angular/common/http';
 import { AppComponent } from './app.component';
 import { UserService } from './services/userService';
 import { UsersComponent } from './users/users.component';
-import { RouterModule } from '@angular/router';
 import { LoginComponent } from './auth/login/login.component';
 import { RegisterComponent } from './auth/register/register.component';
 import { AppRoutesModule } from './app.routes';
 import { ReactiveFormsModule } from '@angular/forms';
+import { ToastrModule } from 'ngx-toastr';
+import { errorInterceptor } from '../error.interceptor';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -18,12 +20,22 @@ import { ReactiveFormsModule } from '@angular/forms';
     RegisterComponent,
   ], 
   imports: [
-    BrowserModule, 
+    BrowserModule,
+    BrowserAnimationsModule,
     HttpClientModule,
     AppRoutesModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    ToastrModule.forRoot({
+      timeOut: 3000,
+      closeButton: true,
+      positionClass: 'toast-top-right',
+      preventDuplicates: true,
+    })
   ],
-  providers: [UserService],  // Register services
+  providers: [
+    UserService,
+    provideHttpClient(withInterceptors([errorInterceptor]))
+  ],  // Register services
   bootstrap: [AppComponent]  // Bootstrap the root component (AppComponent)
 })
 export class AppModule { }

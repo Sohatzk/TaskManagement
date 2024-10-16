@@ -14,8 +14,10 @@ namespace TaskManagement.Validators
             RuleFor(m => m.LastName).NotEmpty();
 
             RuleFor(m => m.RepeatPassword)
+                .Cascade(CascadeMode.Stop)
                 .NotEmpty()
-                .Equal(m => m.Password);
+                .Equal(m => m.Password)
+                .WithMessage("Passwords do not match");
         }
     }
 }
