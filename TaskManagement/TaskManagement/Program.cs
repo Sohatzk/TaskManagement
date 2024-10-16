@@ -1,8 +1,8 @@
-using AutoMapper;
+using FluentValidation;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
 using TaskManagement.Infrastructure;
+using TaskManagement.Infrastructure.Filters;
 using TaskManagement.Service.Infrastructure;
 using TaskManagement.Service.Users;
 using TaskManagement.Storage;
@@ -30,7 +30,11 @@ builder.Services.AddAuthorization();
 
 // Add services to the container.
 
-builder.Services.AddControllers();
+builder.Services.AddControllers(options =>
+{
+    options.Filters.Add<FluentValidationAsyncActionFilter>();
+});
+
 builder.Services.AddDbContext<TaskManagementContext>(option =>
     option.UseNpgsql(builder.Configuration.GetConnectionString("TaskManagementConnectionString")));
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -39,6 +43,7 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddSingleton<IPasswordHasher, PasswordHasher>();
+builder.Services.AddValidatorsFromAssemblyContaining(typeof(Program));
 builder.Services.AddAutoMapper(
     [
         typeof(DescriptorMapper),

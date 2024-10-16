@@ -48,8 +48,6 @@ export class RegisterComponent {
       this.registerForm.get('password')?.value,
       this.registerForm.get('repeatPassword')?.value);
 
-      debugger;
-
     this.authService.register(registerModel).subscribe(
       {
         next: (_isLoggedIn) => {

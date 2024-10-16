@@ -24,7 +24,7 @@ namespace TaskManagement.Controllers
 
         [AllowAnonymous]
         [HttpPost("register")]
-        public async Task<IActionResult> Register([FromBody] RegisterModel model)
+        public async Task<IActionResult> Register(RegisterModel model)
         {
             var userExists = await _userService.UserExistsAsync(model.Email);
             if (userExists)
