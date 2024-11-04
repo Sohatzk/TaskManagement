@@ -2,6 +2,7 @@ using FluentValidation;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 using TaskManagement.Infrastructure;
+using TaskManagement.Infrastructure.Extensions;
 using TaskManagement.Infrastructure.Filters;
 using TaskManagement.Service.Infrastructure;
 using TaskManagement.Service.Users;
@@ -56,6 +57,8 @@ app.UseRouting();
 
 app.UseAuthentication();
 app.UseAuthorization();
+
+app.UseUserInformationMiddleware();
 
 app.UseEndpoints(_ => { });
 

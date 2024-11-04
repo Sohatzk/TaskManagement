@@ -3,26 +3,53 @@
         <div class="mb-3">
           <label for="firstName" class="form-label">First Name</label>
           <input type="firstName" class="form-control" id="firstName" aria-describedby="firstNameHelp" formControlName="firstName">
+          <small class="text-danger" *ngIf="registerForm.controls['lastName'].errors?.['required']">
+            First Name is required
+          </small>
         </div>
         <div class="mb-3">
           <label for="lastName" class="form-label">Last Name</label>
           <input type="lastName" class="form-control" id="lastName" aria-describedby="lastNameHelp" formControlName="lastName">
+          <small class="text-danger" *ngIf="registerForm.controls['lastName'].errors?.['required']">
+            Last Name is required
+          </small>
         </div>
         <div class="mb-3">
           <label for="email" class="form-label">Email</label>
           <input type="email" class="form-control" id="email" aria-describedby="emailHelp" formControlName="email">
+          <small class="text-danger" *ngIf="registerForm.controls['email'].errors?.['required']">
+            Email is required
+          </small>
+          <small class="text-danger" *ngIf="registerForm.controls['email'].errors?.['email'] && !registerForm.controls['email'].errors?.['required']">
+            Please enter a valid email
+          </small>
         </div>
         <div class="mb-3">
           <label for="password" class="form-label">Password</label>
           <input type="password" class="form-control" id="password" formControlName="password">
+          <small class="text-danger" *ngIf="registerForm.controls['password'].errors?.['required']">
+            Password is required
+          </small>
+          <small class="text-danger" *ngIf="registerForm.controls['password'].errors?.['minlength']">
+            Minimum password length is 10 characters
+          </small>
         </div>
         <div class="mb-3">
             <label for="repeatPassword" class="form-label">Repeat Password</label>
             <input type="password" class="form-control" id="repeatPassword" formControlName="repeatPassword">
+            <small class="text-danger" *ngIf="registerForm.controls['repeatPassword'].errors?.['required']">
+              Please enter the pasword again
+            </small>
+            <small class="text-danger" *ngIf="registerForm.controls['repeatPassword'].errors?.['minlength']">
+              Minimum password length is 10 characters
+            </small>
         </div>
         <div class="mb-3 form-check">
-          <input type="checkbox" class="form-check-input" id="rememberPassword">
-          <label class="form-check-label" for="rememberPassword">Remember password</label>
+          <input type="checkbox" class="form-check-input" id="rememberMe">
+          <label class="form-check-label" for="rememberMe">Remember password</label>
+        </div>
+        <div class="linkable mb-3" (click)="navigateToLogIn()">
+          Already have an account? Log in!
         </div>
         <button type="submit" class="btn btn-primary">Register</button>
     </form>

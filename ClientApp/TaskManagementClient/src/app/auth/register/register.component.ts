@@ -3,6 +3,7 @@ import { AuthService } from '../../services/authService';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { RegisterModel } from '../../models/auth/out/registerModel';
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-register',
@@ -17,27 +18,28 @@ export class RegisterComponent {
   constructor(
     private authService: AuthService,
     private formBuilder: FormBuilder,
-    private router: Router) {
-    this.authService.isLoggedIn().subscribe(
-        isLoggedIn => {
-            this.loggedIn = isLoggedIn;
-        });
+    private router: Router,
+    private cookieService: CookieService) {
+      const cookie = cookieService.get('user-info');
+      if (cookie && cookie != '') {
+        this.loggedIn = true;
+      }
   }
 
   ngOnInit(): void {
     this.authFailed = false;
     this.registerForm = this.formBuilder.group(
       {
-          firstName: [''],
-          lastName: [''],
-          email: [''],
-          password: [''],
-          repeatPassword: [''],
-          rememberPassword: [ false ]
+          firstName: ['', Validators.required],
+          lastName: ['', Validators.required],
+          email: ['', [Validators.required, Validators.email]],
+          password: ['', [Validators.required, Validators.minLength(10)]],
+          repeatPassword: ['', [Validators.required, Validators.minLength(10)]],
+          rememberMe: [ false ]
       });
   }
 
-  public register() {
+  public register(): void {
     if (!this.registerForm.valid) {
         return;
     }
@@ -59,5 +61,9 @@ export class RegisterComponent {
           }
         }
       });
+  }
+
+  navigateToLogIn(): void {
+    this.router.navigateByUrl('logIn');
   }
 }

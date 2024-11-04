@@ -1,5 +1,6 @@
 ﻿using FluentValidation;
 using TaskManagement.Models.Auth.In;
+using TaskManagement.Shared;
 
 namespace TaskManagement.Validators
 {
@@ -16,6 +17,7 @@ namespace TaskManagement.Validators
             RuleFor(m => m.RepeatPassword)
                 .Cascade(CascadeMode.Stop)
                 .NotEmpty()
+                .MinimumLength(TaskManagementConstants.User.MinPasswordLength)
                 .Equal(m => m.Password)
                 .WithMessage("Passwords do not match");
         }

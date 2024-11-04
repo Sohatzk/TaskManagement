@@ -29,19 +29,4 @@ export class AuthService {
     public signOut() {
         return this.httpClient.get(`${baseUrl}/logout`);
     }
-
-    public isLoggedIn(): Observable<boolean> {
-        return this.user().pipe(
-            map((userClaims) => {
-                const hasClaims = userClaims.length > 0;
-                return !hasClaims ? false : true;
-            }),
-            catchError((_error) => {
-                return of(false);
-            }));
-    }
-
-    public user() {
-        return this.httpClient.get<UserClaim[]>(`${baseUrl}/user`);
-    }
 }

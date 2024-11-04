@@ -45,7 +45,7 @@ namespace TaskManagement.Controllers
 
             var userView = await _userService.CreateAsync(userDescriptor);
 
-            await SignInAsync(userView);
+            await SignInAsync(userView, model.RememberMe);
 
             return Ok();
         }
@@ -67,12 +67,12 @@ namespace TaskManagement.Controllers
                 return BadRequest("Invalid Password");
             }
 
-            await SignInAsync(userView);
+            await SignInAsync(userView, model.RememberMe);
 
             return Ok();
         }
 
-        private async Task SignInAsync(UserView user)
+        private async Task SignInAsync(UserView user, bool isPersistant)
         {
             var claims = new Claim[]
             {
@@ -88,7 +88,7 @@ namespace TaskManagement.Controllers
                 new ClaimsPrincipal(claimsIdentity),
                 new AuthenticationProperties
                 {
-                    IsPersistent = true
+                    IsPersistent = isPersistant
                 });
         }
 

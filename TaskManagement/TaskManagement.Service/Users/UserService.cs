@@ -20,7 +20,9 @@ namespace TaskManagement.Service.Users
                 {
                     FirstName = u.FirstName,
                     LastName = u.LastName,
-                    Email = u.Email
+                    Email = u.Email,
+                    PasswordHash = u.PasswordHash,
+                    PasswordSalt = u.PasswordSalt
                 })
                 .FirstOrDefaultAsync();
         }

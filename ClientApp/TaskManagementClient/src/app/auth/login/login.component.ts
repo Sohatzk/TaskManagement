@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../../services/authService';
 import { Router } from '@angular/router';
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-login',
@@ -15,24 +16,26 @@ export class LoginComponent implements OnInit {
 
   constructor(private authService: AuthService,
     private formBuilder: FormBuilder,
-    private router: Router) {
-    this.authService.isLoggedIn().subscribe(
-        isLoggedIn => {
-            this.loggedIn = isLoggedIn;
-        });
+    private router: Router,
+    private cookieService: CookieService) {
+      const cookie = cookieService.get('user-info');
+      if (cookie && cookie != '') {
+        this.loggedIn = true;
+      }
   }
 
   ngOnInit(): void {
     this.authFailed = false;
     this.loginForm = this.formBuilder.group(
       {
-          email: [ '', [Validators.required, Validators.email] ],
-          password: [ '', [Validators.required] ],
-          rememberPassword: [ false ]
+          email: ['', [Validators.required, Validators.email]],
+          password: ['', [Validators.required, Validators.minLength(10)]],
+          rememberMe: [false]
       });
   }
 
-  public logIn() {
+  public logIn(): void {
+    console.log(this.loginForm.controls['password'].errors);
     if (!this.loginForm.valid) {
         return;
     }
@@ -51,5 +54,9 @@ export class LoginComponent implements OnInit {
           }
         }
       });
+  }
+
+  navigateToRegistration(): void {
+    this.router.navigateByUrl('register');
   }
 }

@@ -5,11 +5,13 @@ import { LoginComponent } from "./auth/login/login.component";
 import { UsersComponent } from "./users/users.component";
 
 const routes: Route[] = [
-    { path: '', component: LoginComponent },
+    { path: '', redirectTo: '/login', pathMatch: 'full' },
     { path: 'login', component: LoginComponent },
     { path: 'register', component: RegisterComponent },
-    { path: 'users', component: UsersComponent }
+    { path: 'users', component: UsersComponent },
+    { path: '**', redirectTo: '/login' } // Wildcard route for a 404 redirect
 ];
+
 
 @NgModule( {
     imports: [ RouterModule.forRoot(routes) ],
