@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../../services/authService';
 import { Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
+import { LoginModel } from '../../models/auth/out/loginModel';
 
 @Component({
   selector: 'app-login',
@@ -17,7 +18,7 @@ export class LoginComponent implements OnInit {
   constructor(private authService: AuthService,
     private formBuilder: FormBuilder,
     private router: Router,
-    private cookieService: CookieService) {
+    cookieService: CookieService) {
       const cookie = cookieService.get('user-info');
       if (cookie && cookie != '') {
         this.loggedIn = true;
@@ -39,11 +40,13 @@ export class LoginComponent implements OnInit {
     if (!this.loginForm.valid) {
         return;
     }
-    const userName = this.loginForm.get('email')?.value;
-    const password = this.loginForm.get('password')?.value;
+    const loginModel = new LoginModel(
+      this.loginForm.get('email')?.value,
+      this.loginForm.get('password')?.value,
+      this.loginForm.get('rememberMe')?.value);
 
     
-    this.authService.logIn(userName, password).subscribe(
+    this.authService.logIn(loginModel).subscribe(
       {
         next: (_isLoggedIn) => {
             this.router.navigateByUrl('users');

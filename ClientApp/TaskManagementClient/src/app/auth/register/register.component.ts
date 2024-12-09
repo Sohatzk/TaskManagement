@@ -48,7 +48,8 @@ export class RegisterComponent {
       this.registerForm.get('lastName')?.value,
       this.registerForm.get('email')?.value,
       this.registerForm.get('password')?.value,
-      this.registerForm.get('repeatPassword')?.value);
+      this.registerForm.get('repeatPassword')?.value,
+      this.registerForm.get('rememberMe')?.value);
 
     this.authService.register(registerModel).subscribe(
       {
