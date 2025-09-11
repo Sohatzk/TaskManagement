@@ -8,7 +8,8 @@ import { LoginModel } from '../../models/auth/out/loginModel';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrl: './login.component.css'
+  styleUrl: './login.component.css',
+  standalone: false
 })
 export class LoginComponent implements OnInit {
   loginForm!: FormGroup;
@@ -45,7 +46,7 @@ export class LoginComponent implements OnInit {
       this.loginForm.get('password')?.value,
       this.loginForm.get('rememberMe')?.value);
 
-    
+
     this.authService.logIn(loginModel).subscribe(
       {
         next: (_isLoggedIn) => {
