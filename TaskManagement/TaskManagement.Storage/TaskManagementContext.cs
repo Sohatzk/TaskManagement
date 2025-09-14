@@ -7,11 +7,15 @@ namespace TaskManagement.Storage
     public class TaskManagementContext : DbContext
     {
         public DbSet<User> Users { get; set; }
-        public TaskManagementContext(DbContextOptions options) : base(options) { }
+
+        public TaskManagementContext(DbContextOptions options) : base(options)
+        {
+            Database.EnsureCreated();
+        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            // Addd the Postgres Extension for UUID generation
+            // Add the Postgres Extension for UUID generation
             modelBuilder.HasPostgresExtension("uuid-ossp");
 
             // define configurations

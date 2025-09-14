@@ -9,7 +9,7 @@
     align-items: center;
     height: 100%;
   }
-  
+
   .auth-form-container > form {
     padding: 20px;
     background-color: #f9f9f9;
@@ -26,4 +26,43 @@
   .pointer:hover {
     cursor: pointer;
   }
-  
+
+  .spinner-wrapper {
+    background-color: #C9C9C9;
+    opacity: 0.4;
+    position: relative;
+  }
+
+  .spinner-wrapper,
+  .spinner-wrapper * {
+    cursor: default !important;
+    pointer-events: none !important;
+  }
+
+  .spinner {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    z-index: 999;
+    transform: translateX(-50%) translateY(-50%);
+    animation: spin 1s linear infinite;
+  }
+
+  @keyframes spin {
+    100% {
+      transform: translateX(-50%) translateY(-50%) rotate(360deg);
+    }
+  }
+
+  .password-wrapper {
+    position: relative;
+  }
+
+  .eye-icon {
+    color: #bac0ca;
+    cursor: pointer;
+    position: absolute;
+    bottom: 50%;
+    transform: translateY(50%);
+    right: 50px;
+  }

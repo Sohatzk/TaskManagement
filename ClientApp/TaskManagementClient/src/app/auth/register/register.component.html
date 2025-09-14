@@ -1,56 +1,88 @@
 <div class="auth-form-container">
-    <form [formGroup]="registerForm" (submit)="register()">
-        <div class="mb-3">
-          <label for="firstName" class="form-label">First Name</label>
-          <input type="firstName" class="form-control" id="firstName" aria-describedby="firstNameHelp" formControlName="firstName">
-          <small class="text-danger" *ngIf="registerForm.controls['lastName'].errors?.['required']">
+    <form [ngClass]="{'spinner-wrapper': isLoading}" [formGroup]="registerForm" (submit)="register()">
+      @if (isLoading) {
+        <div class="spinner spinner-border text-secondary" role="status">
+          <span class="visually-hidden"></span>
+        </div>
+      }
+      <div class="mb-3">
+        <label for="firstName" class="form-label">First Name</label>
+        <input type="text" class="form-control" id="firstName" aria-describedby="firstNameHelp" formControlName="firstName">
+        @if (registerForm.controls['firstName'].errors?.['required']) {
+          <small class="text-danger">
             First Name is required
           </small>
-        </div>
-        <div class="mb-3">
-          <label for="lastName" class="form-label">Last Name</label>
-          <input type="lastName" class="form-control" id="lastName" aria-describedby="lastNameHelp" formControlName="lastName">
-          <small class="text-danger" *ngIf="registerForm.controls['lastName'].errors?.['required']">
+        }
+      </div>
+      <div class="mb-3">
+        <label for="lastName" class="form-label">Last Name</label>
+        <input type="text" class="form-control" id="lastName" aria-describedby="lastNameHelp" formControlName="lastName">
+        @if (registerForm.controls['lastName'].errors?.['required']) {
+          <small class="text-danger">
             Last Name is required
           </small>
-        </div>
-        <div class="mb-3">
-          <label for="email" class="form-label">Email</label>
-          <input type="email" class="form-control" id="email" aria-describedby="emailHelp" formControlName="email">
-          <small class="text-danger" *ngIf="registerForm.controls['email'].errors?.['required']">
+        }
+      </div>
+      <div class="mb-3">
+        <label for="email" class="form-label">Email</label>
+        <input type="email" class="form-control" id="email" aria-describedby="emailHelp" formControlName="email">
+        @if (registerForm.controls['email'].errors?.['required']) {
+          <small class="text-danger">
             Email is required
           </small>
-          <small class="text-danger" *ngIf="registerForm.controls['email'].errors?.['email'] && !registerForm.controls['email'].errors?.['required']">
+        } @else if (registerForm.controls['email'].errors?.['email']) {
+          <small class="text-danger">
             Please enter a valid email
           </small>
+        }
+      </div>
+      <div class="mb-3">
+        <label for="password" class="form-label">Password</label>
+        <div class="password-wrapper">
+          <input [type]="showPassword ? 'text' : 'password'" class="form-control" id="password" formControlName="password">
+          @if (showPassword) {
+            <fa-icon class="eye-icon" [icon]="faEyeSlash" (click)="togglePasswordVisibility()"></fa-icon>
+          } @else {
+            <fa-icon class="eye-icon" [icon]="faEye" (click)="togglePasswordVisibility()"></fa-icon>
+          }
         </div>
-        <div class="mb-3">
-          <label for="password" class="form-label">Password</label>
-          <input type="password" class="form-control" id="password" formControlName="password">
-          <small class="text-danger" *ngIf="registerForm.controls['password'].errors?.['required']">
+        @if (registerForm.controls['password'].errors?.['required']) {
+          <small class="text-danger">
             Password is required
           </small>
-          <small class="text-danger" *ngIf="registerForm.controls['password'].errors?.['minlength']">
+        } @else if (registerForm.controls['password'].errors?.['minlength']) {
+          <small class="text-danger">
             Minimum password length is 10 characters
           </small>
+        }
+      </div>
+      <div class="mb-3">
+        <label for="repeatPassword" class="form-label">Repeat Password</label>
+        <div class="password-wrapper">
+          <input [type]="showPassword ? 'text' : 'password'" class="form-control" id="repeatPassword" formControlName="repeatPassword">
+          @if (showPassword) {
+            <fa-icon class="eye-icon" [icon]="faEyeSlash" (click)="togglePasswordVisibility()"></fa-icon>
+          } @else {
+            <fa-icon class="eye-icon" [icon]="faEye" (click)="togglePasswordVisibility()"></fa-icon>
+          }
         </div>
-        <div class="mb-3">
-            <label for="repeatPassword" class="form-label">Repeat Password</label>
-            <input type="password" class="form-control" id="repeatPassword" formControlName="repeatPassword">
-            <small class="text-danger" *ngIf="registerForm.controls['repeatPassword'].errors?.['required']">
-              Please enter the pasword again
-            </small>
-            <small class="text-danger" *ngIf="registerForm.controls['repeatPassword'].errors?.['minlength']">
-              Minimum password length is 10 characters
-            </small>
-        </div>
-        <div class="mb-3 form-check">
-          <input type="checkbox" class="form-check-input" id="rememberMe">
-          <label class="form-check-label" for="rememberMe">Remember password</label>
-        </div>
-        <div class="linkable mb-3" (click)="navigateToLogIn()">
-          Already have an account? Log in!
-        </div>
-        <button type="submit" class="btn btn-primary">Register</button>
+        @if (registerForm.controls['repeatPassword'].errors?.['required']) {
+          <small class="text-danger">
+            Please enter the password again
+          </small>
+        } @else if (registerForm.controls['repeatPassword'].errors?.['minlength']) {
+          <small class="text-danger">
+            Minimum password length is 10 characters
+          </small>
+        }
+      </div>
+      <div class="mb-3 form-check">
+        <input type="checkbox" class="form-check-input" id="rememberMe">
+        <label class="form-check-label" for="rememberMe">Remember me</label>
+      </div>
+      <div class="linkable mb-3" (click)="navigateTo('login')">
+        Already have an account? Log in!
+      </div>
+      <button type="submit" class="btn btn-primary">Register</button>
     </form>
 </div>

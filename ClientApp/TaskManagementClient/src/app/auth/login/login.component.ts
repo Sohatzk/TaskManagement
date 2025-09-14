@@ -4,6 +4,7 @@ import { AuthService } from '../../services/authService';
 import { Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 import { LoginModel } from '../../models/auth/out/loginModel';
+import {AuthBaseComponent} from "../authBaseComponent";
 
 @Component({
   selector: 'app-login',
@@ -11,21 +12,16 @@ import { LoginModel } from '../../models/auth/out/loginModel';
   styleUrl: './login.component.css',
   standalone: false
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent extends AuthBaseComponent implements OnInit {
   loginForm!: FormGroup;
   authFailed: boolean = false;
-  loggedIn: boolean = false;
-
-  constructor(private authService: AuthService,
+  constructor(
+    private authService: AuthService,
     private formBuilder: FormBuilder,
-    private router: Router,
+    router: Router,
     cookieService: CookieService) {
-      const cookie = cookieService.get('user-info');
-      if (cookie && cookie != '') {
-        this.loggedIn = true;
-      }
+      super(router, cookieService);
   }
-
   ngOnInit(): void {
     this.authFailed = false;
     this.loginForm = this.formBuilder.group(
@@ -37,30 +33,26 @@ export class LoginComponent implements OnInit {
   }
 
   public logIn(): void {
-    console.log(this.loginForm.controls['password'].errors);
     if (!this.loginForm.valid) {
         return;
     }
+
     const loginModel = new LoginModel(
       this.loginForm.get('email')?.value,
       this.loginForm.get('password')?.value,
       this.loginForm.get('rememberMe')?.value);
 
-
+    this.isLoading = true;
     this.authService.logIn(loginModel).subscribe(
       {
         next: (_isLoggedIn) => {
-            this.router.navigateByUrl('users');
+          this.isLoading = false;
+          this.router.navigateByUrl('users');
         },
         error: (err) => {
-          if (!err?.error?.isSuccess) {
-            this.authFailed = true;
-          }
+          this.isLoading = false;
+          this.authFailed = true;
         }
       });
-  }
-
-  navigateToRegistration(): void {
-    this.router.navigateByUrl('register');
   }
 }

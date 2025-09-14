@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { HttpClientModule, provideHttpClient, withInterceptors } from '@angular/common/http';
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { AppComponent } from './app.component';
 import { UserService } from './services/userService';
 import { UsersComponent } from './users/users.component';
@@ -10,21 +10,20 @@ import { AppRoutesModule } from './app.routes';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ToastrModule } from 'ngx-toastr';
 import { errorInterceptor } from '../error.interceptor';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @NgModule({
   declarations: [
     AppComponent,
     UsersComponent,
     LoginComponent,
-    RegisterComponent,
-  ], 
+    RegisterComponent
+  ],
   imports: [
     BrowserModule,
-    BrowserAnimationsModule,
-    HttpClientModule,
     AppRoutesModule,
     ReactiveFormsModule,
+    FontAwesomeModule,
     ToastrModule.forRoot({
       timeOut: 3000,
       closeButton: true,

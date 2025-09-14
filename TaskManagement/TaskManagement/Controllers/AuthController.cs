@@ -57,14 +57,14 @@ namespace TaskManagement.Controllers
             var userView = await _userService.GetUserAsync(model.Email);
             if (userView is null)
             {
-                return BadRequest("User not found");
+                return Unauthorized("User with this email was not found");
             }
 
             var isVerified = _passwordHasher.Verify(model.Password, userView.PasswordHash, userView.PasswordSalt);
 
             if (!isVerified)
             {
-                return BadRequest("Invalid Password");
+                return Unauthorized("Invalid Password");
             }
 
             await SignInAsync(userView, model.RememberMe);

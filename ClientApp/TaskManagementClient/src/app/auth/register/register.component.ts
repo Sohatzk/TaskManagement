@@ -1,9 +1,10 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import { AuthService } from '../../services/authService';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { RegisterModel } from '../../models/auth/out/registerModel';
 import { CookieService } from 'ngx-cookie-service';
+import {AuthBaseComponent} from "../authBaseComponent";
 
 @Component({
   selector: 'app-register',
@@ -11,20 +12,16 @@ import { CookieService } from 'ngx-cookie-service';
   styleUrl: './register.component.css',
   standalone: false
 })
-export class RegisterComponent {
+export class RegisterComponent extends AuthBaseComponent implements OnInit {
   registerForm!: FormGroup;
   authFailed: boolean = false;
-  loggedIn: boolean = false;
 
   constructor(
     private authService: AuthService,
     private formBuilder: FormBuilder,
-    private router: Router,
-    private cookieService: CookieService) {
-      const cookie = cookieService.get('user-info');
-      if (cookie && cookie != '') {
-        this.loggedIn = true;
-      }
+    router: Router,
+    cookieService: CookieService) {
+      super(router, cookieService);
   }
 
   ngOnInit(): void {
@@ -52,20 +49,19 @@ export class RegisterComponent {
       this.registerForm.get('repeatPassword')?.value,
       this.registerForm.get('rememberMe')?.value);
 
+    this.isLoading = true;
     this.authService.register(registerModel).subscribe(
       {
         next: (_isLoggedIn) => {
             this.router.navigateByUrl('users');
+            this.isLoading = false;
         },
         error: (err) => {
           if (!err?.error?.isSuccess) {
             this.authFailed = true;
+            this.isLoading = false;
           }
         }
       });
-  }
-
-  navigateToLogIn(): void {
-    this.router.navigateByUrl('logIn');
   }
 }
