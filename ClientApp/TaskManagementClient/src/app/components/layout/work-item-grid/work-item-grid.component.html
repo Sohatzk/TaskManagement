@@ -1,0 +1,36 @@
+<div class="right-aligned-container">
+  <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">
+    <input
+      type="search"
+      class="form-control"
+      placeholder="Search..."
+      aria-label="Search"
+    />
+  </form>
+  <button type="button" class="btn btn-primary">New Work Item</button>
+  <button type="button" class="btn btn-danger">Delete</button>
+</div>
+<table class="main-table table table-striped">
+  <thead>
+  <tr>
+    <th class="row-header" scope="col">#</th>
+    <th scope="col">Title</th>
+    <th scope="col">Assigned To</th>
+    <th scope="col">Status</th>
+    <th scope="col">Last Updated At</th>
+  </tr>
+  </thead>
+  <tbody>
+    @for (workItem of workItems; track workItem.id; let idx = $index) {
+      <tr (click)="selectWorkItem(workItem.id)" [class.selected]="selectedWorkItems.includes(workItem.id)">
+        <th class="row-header" scope="row">{{ idx + 1 }}</th>
+        <td><a href="" (click)="editWorkItem(workItem.id, $event)">{{ workItem.title }}</a></td>
+        <td>{{ workItem.firstName + ' ' + workItem.lastName }}</td>
+        <td>{{ workItem.workItemStatus }}</td>
+        <td>{{ workItem.updatedAt | date:'medium' }}</td>
+      </tr>
+    }
+  </tbody>
+</table>
+
+

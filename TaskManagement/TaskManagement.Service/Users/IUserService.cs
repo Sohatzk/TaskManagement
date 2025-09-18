@@ -6,9 +6,9 @@ namespace TaskManagement.Service.Users
 {
     public interface IUserService
     {
-        Task<List<UserView>> GetUsersAsync();
-        Task<UserView> GetUserAsync(string email);
+        Task<List<UserGridView>> GetUsersAsync();
+        Task<UserGridView> GetUserAsync(string email);
         Task<bool> UserExistsAsync(string email);
-        Task<UserView> CreateAsync(UserDescriptor descriptor);
+        Task<UserGridView> CreateAsync(UserDescriptor descriptor);
     }
 }

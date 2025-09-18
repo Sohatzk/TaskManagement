@@ -1,3 +1,5 @@
-<p *ngFor="let user of users">
+@for (user of users; track user.email) {
+  <p>
     FirstName: {{ user.firstName }}, LastName: {{ user.lastName }}, Email: {{ user.email }}
-</p>
+  </p>
+}

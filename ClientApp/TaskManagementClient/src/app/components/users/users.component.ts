@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { UserService } from '../services/userService';
-import { User } from '../models/users/in/user';
+import { User } from "../../models/users/in/user";
+import { UserService } from "../../services/userService";
 
 @Component({
   selector: 'app-users',
@@ -22,7 +22,7 @@ export class UsersComponent implements OnInit {
         this.users = response;
       },
       error: (err) => {
-        console.error('Error fetching users', err);
+        console.error();
       },
     });
   }

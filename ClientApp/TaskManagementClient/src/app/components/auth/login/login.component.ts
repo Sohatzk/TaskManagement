@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { AuthService } from '../../services/authService';
 import { Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
-import { LoginModel } from '../../models/auth/out/loginModel';
-import {AuthBaseComponent} from "../authBaseComponent";
+import { AuthBaseComponent } from "../authBaseComponent";
+import { LoginModel } from "../../../models/auth/out/loginModel";
+import { AuthService } from "../../../services/authService";
 
 @Component({
   selector: 'app-login',
@@ -47,9 +47,9 @@ export class LoginComponent extends AuthBaseComponent implements OnInit {
       {
         next: (_isLoggedIn) => {
           this.isLoading = false;
-          this.router.navigateByUrl('users');
+          this.router.navigateByUrl('layout/workItemGrid');
         },
-        error: (err) => {
+        error: () => {
           this.isLoading = false;
           this.authFailed = true;
         }

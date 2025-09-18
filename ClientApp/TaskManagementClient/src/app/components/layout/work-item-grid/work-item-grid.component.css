@@ -1,0 +1,14 @@
+.right-aligned-container {
+  display: flex;
+  justify-content: flex-end; /* Pushes items to the right */
+  gap: 15px; /* Adds space between items */
+  padding: 10px;
+}
+
+.selected * {
+  background-color: #d2edfc !important; /* Light gray background for selected items */
+}
+
+.row-header {
+  cursor: default;
+}

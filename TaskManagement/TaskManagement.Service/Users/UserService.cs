@@ -9,14 +9,11 @@ namespace TaskManagement.Service.Users
 {
     public class UserService(TaskManagementContext db, IMapper mapper) : IUserService
     {
-        private readonly TaskManagementContext _db = db;
-        private readonly IMapper _mapper = mapper;
-
-        public async Task<UserView> GetUserAsync(string email)
+        public async Task<UserGridView> GetUserAsync(string email)
         {
-            return await _db.Users
+            return await db.Users
                 .Where(u => u.Email == email)
-                .Select(u => new UserView
+                .Select(u => new UserGridView
                 {
                     FirstName = u.FirstName,
                     LastName = u.LastName,
@@ -29,14 +26,14 @@ namespace TaskManagement.Service.Users
 
         public async Task<bool> UserExistsAsync(string email)
         {
-            return await _db.Users
+            return await db.Users
                 .AnyAsync(u => u.Email == email);
         }
 
-        public async Task<List<UserView>> GetUsersAsync()
+        public async Task<List<UserGridView>> GetUsersAsync()
         {
-            return await _db.Users
-                .Select(u => new UserView
+            return await db.Users
+                .Select(u => new UserGridView
                 {
                     FirstName = u.FirstName,
                     LastName = u.LastName,
@@ -45,13 +42,13 @@ namespace TaskManagement.Service.Users
                 .ToListAsync();
         }
 
-        public async Task<UserView> CreateAsync(UserDescriptor descriptor)
+        public async Task<UserGridView> CreateAsync(UserDescriptor descriptor)
         {
-            var user = _mapper.Map<User>(descriptor);
-            _db.Users.Add(user);
-            await _db.SaveChangesAsync();
+            var user = mapper.Map<User>(descriptor);
+            db.Users.Add(user);
+            await db.SaveChangesAsync();
 
-            return _mapper.Map<UserView>(user);
+            return mapper.Map<UserGridView>(user);
         }
     }
 }

@@ -1,10 +1,10 @@
 import {Component, OnInit} from '@angular/core';
-import { AuthService } from '../../services/authService';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { RegisterModel } from '../../models/auth/out/registerModel';
 import { CookieService } from 'ngx-cookie-service';
 import {AuthBaseComponent} from "../authBaseComponent";
+import { AuthService } from "../../../services/authService";
+import { RegisterModel } from "../../../models/auth/out/registerModel";
 
 @Component({
   selector: 'app-register',
@@ -53,14 +53,12 @@ export class RegisterComponent extends AuthBaseComponent implements OnInit {
     this.authService.register(registerModel).subscribe(
       {
         next: (_isLoggedIn) => {
-            this.router.navigateByUrl('users');
+            this.router.navigateByUrl('layout/workItemGrid');
             this.isLoading = false;
         },
-        error: (err) => {
-          if (!err?.error?.isSuccess) {
-            this.authFailed = true;
-            this.isLoading = false;
-          }
+        error: () => {
+          this.authFailed = true;
+          this.isLoading = false;
         }
       });
   }

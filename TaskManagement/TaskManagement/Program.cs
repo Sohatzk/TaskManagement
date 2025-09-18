@@ -42,13 +42,13 @@ builder.Services.AddDbContext<TaskManagementContext>(option =>
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddScoped<IUserService, UserService>();
-builder.Services.AddSingleton<IPasswordHasher, PasswordHasher>();
+builder.Services.AddServices();
 builder.Services.AddValidatorsFromAssemblyContaining(typeof(Program));
 builder.Services.AddAutoMapper(
     [
         typeof(DescriptorMapper),
-        typeof(ViewMapper)
+        typeof(ViewMapper),
+        typeof(ResponseMapper)
     ]);
 
 var app = builder.Build();

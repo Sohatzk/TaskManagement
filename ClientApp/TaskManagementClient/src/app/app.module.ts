@@ -3,21 +3,21 @@ import { NgModule } from '@angular/core';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { AppComponent } from './app.component';
 import { UserService } from './services/userService';
-import { UsersComponent } from './users/users.component';
-import { LoginComponent } from './auth/login/login.component';
-import { RegisterComponent } from './auth/register/register.component';
 import { AppRoutesModule } from './app.routes';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ToastrModule } from 'ngx-toastr';
 import { errorInterceptor } from '../error.interceptor';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { RegisterComponent } from "./components/auth/register/register.component";
+import { LoginComponent } from "./components/auth/login/login.component";
+import { WorkItemGridComponent } from "./components/layout/work-item-grid/work-item-grid.component";
 
 @NgModule({
   declarations: [
     AppComponent,
-    UsersComponent,
+    RegisterComponent,
     LoginComponent,
-    RegisterComponent
+    WorkItemGridComponent
   ],
   imports: [
     BrowserModule,

@@ -8,12 +8,10 @@ namespace TaskManagement.Controllers
     [Authorize]
     public class UserController(IUserService userService) : BaseController
     {
-        private readonly IUserService _userService = userService;
-
         [HttpGet]
         public async Task<IActionResult> GetUsers()
         {
-            return Ok(await _userService.GetUsersAsync());
+            return Ok(await userService.GetUsersAsync());
         }
     }
 }

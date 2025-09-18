@@ -13,4 +13,8 @@
     <ProjectReference Include="..\TaskManagement.Storage\TaskManagement.Storage.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="WorkItems\Descriptors\" />
+  </ItemGroup>
+
 </Project>

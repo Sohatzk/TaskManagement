@@ -8,7 +8,7 @@ namespace TaskManagement.Service.Infrastructure
     {
         public ViewMapper()
         {
-            CreateMap<User, UserView>();
+            CreateMap<User, UserGridView>();
         }
     }
 }

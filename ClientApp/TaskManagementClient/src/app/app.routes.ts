@@ -1,15 +1,23 @@
 import { NgModule } from "@angular/core";
 import { Route, RouterModule } from "@angular/router";
-import { RegisterComponent } from "./auth/register/register.component";
-import { LoginComponent } from "./auth/login/login.component";
-import { UsersComponent } from "./users/users.component";
+import { RegisterComponent } from "./components/auth/register/register.component";
+import { LoginComponent } from "./components/auth/login/login.component";
+import { LayoutComponent } from "./components/layout/layout.component";
+import { WorkItemGridComponent } from "./components/work-item-grid/work-item-grid.component";
 
 const routes: Route[] = [
-    { path: '', redirectTo: '/login', pathMatch: 'full' },
     { path: 'login', component: LoginComponent },
     { path: 'register', component: RegisterComponent },
-    { path: 'users', component: UsersComponent },
-    { path: '**', redirectTo: '/login' } // Wildcard route for a 404 redirect
+    {
+      path: 'layout',
+      component: LayoutComponent,
+      children: [
+        { path: '', redirectTo: 'workItemGrid', pathMatch: 'full' },
+        { path: 'workItemGrid', component: WorkItemGridComponent }
+      ]
+    },
+    { path: '', redirectTo: 'layout', pathMatch: 'full' },
+    { path: '**', redirectTo: '/login' }
 ];
 
 

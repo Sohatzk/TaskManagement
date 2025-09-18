@@ -7,11 +7,9 @@ namespace TaskManagement.Storage
     public class TaskManagementContext : DbContext
     {
         public DbSet<User> Users { get; set; }
+        public DbSet<WorkItem> WorkItems { get; set; }
 
-        public TaskManagementContext(DbContextOptions options) : base(options)
-        {
-            Database.EnsureCreated();
-        }
+        public TaskManagementContext(DbContextOptions options) : base(options) { }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -20,6 +18,7 @@ namespace TaskManagement.Storage
 
             // define configurations
             modelBuilder.ApplyConfiguration(new UserMapping());
+            modelBuilder.ApplyConfiguration(new WorkItemMapping());
         }
     }
 }

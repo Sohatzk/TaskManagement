@@ -14,25 +14,20 @@ using TaskManagement.Storage.Views.Users;
 namespace TaskManagement.Controllers
 {
     public class AuthController(
-        ILogger<AuthController> logger,
         IUserService userService,
         IPasswordHasher passwordHasher) : BaseController
     {
-        private readonly ILogger<AuthController> _logger = logger;
-        private readonly IUserService _userService = userService;
-        private readonly IPasswordHasher _passwordHasher = passwordHasher;
-
         [AllowAnonymous]
         [HttpPost("register")]
         public async Task<IActionResult> Register(RegisterModel model)
         {
-            var userExists = await _userService.UserExistsAsync(model.Email);
+            var userExists = await userService.UserExistsAsync(model.Email);
             if (userExists)
             {
                 return BadRequest("User with such email already exists");
             }
 
-            var (hash, salt) = _passwordHasher.Hash(model.Password);
+            var (hash, salt) = passwordHasher.Hash(model.Password);
 
             var userDescriptor = new UserDescriptor
             {
@@ -43,7 +38,7 @@ namespace TaskManagement.Controllers
                 PasswordSalt = salt
             };
 
-            var userView = await _userService.CreateAsync(userDescriptor);
+            var userView = await userService.CreateAsync(userDescriptor);
 
             await SignInAsync(userView, model.RememberMe);
 
@@ -54,13 +49,13 @@ namespace TaskManagement.Controllers
         [HttpPost("login")]
         public async Task<IActionResult> Login(LoginModel model)
         {
-            var userView = await _userService.GetUserAsync(model.Email);
+            var userView = await userService.GetUserAsync(model.Email);
             if (userView is null)
             {
                 return Unauthorized("User with this email was not found");
             }
 
-            var isVerified = _passwordHasher.Verify(model.Password, userView.PasswordHash, userView.PasswordSalt);
+            var isVerified = passwordHasher.Verify(model.Password, userView.PasswordHash, userView.PasswordSalt);
 
             if (!isVerified)
             {
@@ -72,13 +67,13 @@ namespace TaskManagement.Controllers
             return Ok();
         }
 
-        private async Task SignInAsync(UserView user, bool isPersistant)
+        private async Task SignInAsync(UserGridView userGrid, bool isPersistant)
         {
             var claims = new Claim[]
             {
-                new("FistName", user.FirstName),
-                new("LastName", user.LastName),
-                new(ClaimTypes.Email, user.Email),
+                new("FistName", userGrid.FirstName),
+                new("LastName", userGrid.LastName),
+                new(ClaimTypes.Email, userGrid.Email),
             };
 
             var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
@@ -96,12 +91,7 @@ namespace TaskManagement.Controllers
         [HttpGet("logout")]
         public async Task<IActionResult> Logout()
         {
-            await HttpContext.SignOutAsync(
-                CookieAuthenticationDefaults.AuthenticationScheme,
-                new AuthenticationProperties
-                {
-                    IsPersistent = true
-                });
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
 
             return Ok();
         }
