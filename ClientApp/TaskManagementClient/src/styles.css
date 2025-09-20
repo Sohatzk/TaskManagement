@@ -66,3 +66,19 @@
     transform: translateY(50%);
     right: 50px;
   }
+
+  .in-progress-status {
+    color: #229ce0;
+  }
+
+  .resolved-status {
+    color: #016b16;
+  }
+
+  .unresolved-status {
+    color: #bf4143;
+  }
+
+  .closed-status {
+    color: #6c757d;
+  }

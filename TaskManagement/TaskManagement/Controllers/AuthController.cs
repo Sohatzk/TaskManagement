@@ -49,7 +49,7 @@ namespace TaskManagement.Controllers
         [HttpPost("login")]
         public async Task<IActionResult> Login(LoginModel model)
         {
-            var userView = await userService.GetUserAsync(model.Email);
+            var userView = await userService.GetUserAuthViewAsync(model.Email);
             if (userView is null)
             {
                 return Unauthorized("User with this email was not found");
@@ -67,7 +67,7 @@ namespace TaskManagement.Controllers
             return Ok();
         }
 
-        private async Task SignInAsync(UserGridView userGrid, bool isPersistant)
+        private async Task SignInAsync(UserAuthView userGrid, bool isPersistant)
         {
             var claims = new Claim[]
             {

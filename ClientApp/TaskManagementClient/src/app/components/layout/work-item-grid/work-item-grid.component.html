@@ -13,7 +13,7 @@
 <table class="main-table table table-striped">
   <thead>
   <tr>
-    <th class="row-header" scope="col">#</th>
+    <th (click)="selectAllWorkItems()" class="row-header select-all" scope="col" title="Select all">#</th>
     <th scope="col">Title</th>
     <th scope="col">Assigned To</th>
     <th scope="col">Status</th>
@@ -22,11 +22,11 @@
   </thead>
   <tbody>
     @for (workItem of workItems; track workItem.id; let idx = $index) {
-      <tr (click)="selectWorkItem(workItem.id)" [class.selected]="selectedWorkItems.includes(workItem.id)">
+      <tr title="Select" class="selectable-row" (click)="selectWorkItem(workItem.id)" [class.selected]="selectedWorkItems.includes(workItem.id)">
         <th class="row-header" scope="row">{{ idx + 1 }}</th>
         <td><a href="" (click)="editWorkItem(workItem.id, $event)">{{ workItem.title }}</a></td>
         <td>{{ workItem.firstName + ' ' + workItem.lastName }}</td>
-        <td>{{ workItem.workItemStatus }}</td>
+        <td><span [class]="getStatusClass(workItem.status)">{{ getStatusText(workItem.status) }}</span></td>
         <td>{{ workItem.updatedAt | date:'medium' }}</td>
       </tr>
     }

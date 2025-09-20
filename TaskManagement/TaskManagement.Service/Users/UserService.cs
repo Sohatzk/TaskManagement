@@ -9,15 +9,15 @@ namespace TaskManagement.Service.Users
 {
     public class UserService(TaskManagementContext db, IMapper mapper) : IUserService
     {
-        public async Task<UserGridView> GetUserAsync(string email)
+        public async Task<UserAuthView> GetUserAuthViewAsync(string email)
         {
             return await db.Users
                 .Where(u => u.Email == email)
-                .Select(u => new UserGridView
+                .Select(u => new UserAuthView()
                 {
+                    Email = u.Email,
                     FirstName = u.FirstName,
                     LastName = u.LastName,
-                    Email = u.Email,
                     PasswordHash = u.PasswordHash,
                     PasswordSalt = u.PasswordSalt
                 })
@@ -36,19 +36,18 @@ namespace TaskManagement.Service.Users
                 .Select(u => new UserGridView
                 {
                     FirstName = u.FirstName,
-                    LastName = u.LastName,
-                    Email = u.Email
+                    LastName = u.LastName
                 })
                 .ToListAsync();
         }
 
-        public async Task<UserGridView> CreateAsync(UserDescriptor descriptor)
+        public async Task<UserAuthView> CreateAsync(UserDescriptor descriptor)
         {
             var user = mapper.Map<User>(descriptor);
             db.Users.Add(user);
             await db.SaveChangesAsync();
 
-            return mapper.Map<UserGridView>(user);
+            return mapper.Map<UserAuthView>(user);
         }
     }
 }

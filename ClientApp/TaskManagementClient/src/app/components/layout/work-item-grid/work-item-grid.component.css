@@ -1,14 +1,24 @@
 .right-aligned-container {
   display: flex;
-  justify-content: flex-end; /* Pushes items to the right */
-  gap: 15px; /* Adds space between items */
+  justify-content: flex-end;
+  gap: 15px;
   padding: 10px;
 }
 
 .selected * {
-  background-color: #d2edfc !important; /* Light gray background for selected items */
+  background-color: #d2edfc;
+  --bs-table-bg-type: #d2edfc;
 }
 
 .row-header {
   cursor: default;
+}
+
+.select-all:hover {
+  --bs-table-bg-type: rgba(0, 0, 0, 0.075);
+}
+
+tbody > tr:hover {
+  --bs-table-bg-type: #d2edfc;
+  --bs-table-striped-bg: #d2edfc;
 }

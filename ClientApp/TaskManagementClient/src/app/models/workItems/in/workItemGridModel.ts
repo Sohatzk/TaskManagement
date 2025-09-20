@@ -5,6 +5,6 @@ export interface WorkItemGridModel {
   title: string;
   firstName: string;
   lastName: string;
-  workItemStatus: WorkItemStatus;
+  status: WorkItemStatus;
   updatedAt: Date;
 }
