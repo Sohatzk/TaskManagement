@@ -1,0 +1,59 @@
+.container {
+  position: relative;
+  background-color: white;
+  border-radius: 2%;
+  padding: 15px;
+}
+
+.fa-xmark-icon {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
+}
+
+.description {
+  width: 500px;
+  height: 200px;
+}
+
+.discussion {
+  width: 60%;
+  height: 100px;
+}
+
+input,
+textarea {
+  outline: none;
+  padding-left: 12px;
+  border: 1px solid #dee2e6;
+  border-radius: 4px;
+}
+
+input:focus,
+textarea:focus {
+  border: 1px solid #86b7fe;
+  box-shadow: 0 0 4px #c2dbfe;
+}
+
+.title {
+  width: 60%;
+  height: 40px;
+  max-width: 500px;
+}
+
+.form-select {
+  width: 200px;
+}
+
+.second-row-container {
+  width: 500px;
+}
+
+.title {
+  width: 500px;
+}
+
+
+
+

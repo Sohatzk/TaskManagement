@@ -7,13 +7,18 @@
       aria-label="Search"
     />
   </form>
-  <button type="button" class="btn btn-primary">New Work Item</button>
+  <button (click)="createWorkItemClicked($event)" type="button" class="btn btn-primary">New Work Item</button>
   <button type="button" class="btn btn-danger">Delete</button>
 </div>
-<table class="main-table table table-striped">
+<table class="main-table table table-striped"[ngClass]="{'spinner-wrapper': isLoading}">
+  @if (isLoading) {
+    <div class="spinner spinner-border text-secondary" role="status">
+      <span class="visually-hidden"></span>
+    </div>
+  }
   <thead>
   <tr>
-    <th (click)="selectAllWorkItems()" class="row-header select-all" scope="col" title="Select all">#</th>
+    <th (click)="selectAllWorkItems()" class="row-header select-all" scope="col" title="Select all"></th>
     <th scope="col">Title</th>
     <th scope="col">Assigned To</th>
     <th scope="col">Status</th>
@@ -23,8 +28,14 @@
   <tbody>
     @for (workItem of workItems; track workItem.id; let idx = $index) {
       <tr title="Select" class="selectable-row" (click)="selectWorkItem(workItem.id)" [class.selected]="selectedWorkItems.includes(workItem.id)">
-        <th class="row-header" scope="row">{{ idx + 1 }}</th>
-        <td><a href="" (click)="editWorkItem(workItem.id, $event)">{{ workItem.title }}</a></td>
+        <th class="row-header" scope="row">
+          <app-work-item-type [workItemType]="workItem.type"/>
+        </th>
+        <td>
+          <a href="" (click)="editWorkItemClicked(workItem.id, $event)">
+            {{ workItem.title }}
+          </a>
+        </td>
         <td>{{ workItem.firstName + ' ' + workItem.lastName }}</td>
         <td><span [class]="getStatusClass(workItem.status)">{{ getStatusText(workItem.status) }}</span></td>
         <td>{{ workItem.updatedAt | date:'medium' }}</td>

@@ -14,6 +14,7 @@ export class AuthBaseComponent {
       const cookie = cookieService.get('user-info');
       if (cookie && cookie != '') {
         this.loggedIn = true;
+        this.router.navigateByUrl('layout/work-items');
       }
   }
   togglePasswordVisibility(): void {

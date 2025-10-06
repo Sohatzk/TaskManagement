@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using TaskManagement.Storage;
@@ -11,9 +12,11 @@ using TaskManagement.Storage;
 namespace TaskManagement.Storage.Migrations
 {
     [DbContext(typeof(TaskManagementContext))]
-    partial class TaskManagementContextModelSnapshot : ModelSnapshot
+    [Migration("20250929132029_AddWorkItemNumber")]
+    partial class AddWorkItemNumber
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -54,7 +57,7 @@ namespace TaskManagement.Storage.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("TaskManagement.Storage.Entities.WorkItems", b =>
+            modelBuilder.Entity("TaskManagement.Storage.Entities.WorkItem", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -102,7 +105,7 @@ namespace TaskManagement.Storage.Migrations
                     b.ToTable("WorkItems");
                 });
 
-            modelBuilder.Entity("TaskManagement.Storage.Entities.WorkItems", b =>
+            modelBuilder.Entity("TaskManagement.Storage.Entities.WorkItem", b =>
                 {
                     b.HasOne("TaskManagement.Storage.Entities.User", "User")
                         .WithMany("WorkItems")

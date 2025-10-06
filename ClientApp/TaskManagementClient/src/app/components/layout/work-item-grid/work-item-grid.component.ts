@@ -1,10 +1,15 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { Guid } from 'guid-typescript';
 import { WorkItemGridModel } from "../../../models/workItems/in/workItemGridModel";
 import { WorkItemService } from "../../../services/workItemService";
-import { Dialog } from "@angular/cdk/dialog"
 import { WorkItemComponent } from "../work-item/work-item.component";
 import { WorkItemStatus } from "../../../shared/enums/workItemStatus";
+import { ActivatedRoute, Router } from "@angular/router";
+import { Subscription } from "rxjs";
+import { MatDialog, MatDialogRef } from "@angular/material/dialog";
+import { Location } from "@angular/common";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { WorkItemType } from "../../../shared/enums/workItemType";
 
 @Component({
   selector: 'app-work-item-grid',
@@ -12,17 +17,53 @@ import { WorkItemStatus } from "../../../shared/enums/workItemStatus";
   styleUrl: './work-item-grid.component.css',
   standalone: false
 })
-export class WorkItemGridComponent implements OnInit {
-  private dialog = inject(Dialog);
-  workItems: WorkItemGridModel[] = [];
-  selectedWorkItems: Guid[] = [];
-  constructor(private workItemService: WorkItemService) { }
+export class WorkItemGridComponent implements OnInit, OnDestroy {
+  private queryParamsSubscription!: Subscription;
+  private dialog = inject(MatDialog);
+  private currentDialogRef: MatDialogRef<WorkItemComponent>|null = null;
+  protected workItems: WorkItemGridModel[] = [];
+  protected selectedWorkItems: Guid[] = [];
+  protected workItemForm!: FormGroup;
+  protected isLoading: boolean = false;
+  constructor(
+    private workItemService: WorkItemService,
+    private router: Router,
+    private route: ActivatedRoute,
+    private location: Location,
+    private formBuilder: FormBuilder) { }
 
   ngOnInit(): void {
     this.getWorkItems();
+
+    this.queryParamsSubscription = this.route.url.subscribe(() => {
+      const isNewMode = this.route.snapshot.children.some(child =>
+        child.url.some(s => s.path === 'new')
+      );
+
+      const workItemId = this.route.snapshot.queryParams['id'] as Guid;
+
+      if (isNewMode) {
+        this.openWorkItemModal(false);
+      } else if (workItemId) {
+        this.openWorkItemModal(true, workItemId);
+      } else {
+        this.closeWorkItemModal();
+      }
+    });
+
+    this.workItemForm = this.formBuilder.group(
+      {
+        title: ['', Validators.required],
+        type: [WorkItemType.Bug],
+        email: ['', [Validators.required, Validators.email]],
+        password: ['', [Validators.required, Validators.minLength(10)]],
+        repeatPassword: ['', [Validators.required, Validators.minLength(10)]],
+        rememberMe: [ false ]
+      });
   }
 
   getWorkItems(): void {
+    this.isLoading = true;
     this.workItemService.getWorkItems().subscribe({
       next: (response) => {
         this.workItems = response;
@@ -31,6 +72,7 @@ export class WorkItemGridComponent implements OnInit {
         console.error();
       },
     });
+    this.isLoading = false;
   }
 
   selectWorkItem(id: Guid): void {
@@ -51,10 +93,74 @@ export class WorkItemGridComponent implements OnInit {
     this.selectedWorkItems = this.workItems.map(item => item.id);
   }
 
-  editWorkItem(id: Guid, event: Event) : void {
-    event.preventDefault();
-    event.stopPropagation();
-    this.dialog.open(WorkItemComponent, { disableClose: true });
+  createWorkItemClicked(event: Event|null = null) : void {
+    event?.preventDefault();
+    event?.stopPropagation();
+
+    const originalUrl = this.location.path();
+    const newUrl = originalUrl + '/new';
+
+    this.router.navigate(['new'], {
+      queryParamsHandling: 'merge',
+      relativeTo: this.route,
+    })
+      .then(() => {
+        this.openWorkItemModal(false);
+      })
+      .catch(err => {
+        console.error("Navigation error:", err);
+      });
+  }
+
+
+  editWorkItemClicked(id: Guid, event: Event|null = null) : void {
+    event?.preventDefault();
+    event?.stopPropagation();
+
+    this.router.navigate([], {
+      queryParams: {
+        id: id
+      },
+      queryParamsHandling: 'merge',
+      relativeTo: this.route,
+    })
+      .then(() => {
+        this.openWorkItemModal(true, id);
+      })
+      .catch(err => {
+        console.error("Navigation error:", err);
+      });
+  }
+
+  openWorkItemModal(isEditMode: boolean, id: Guid|null = null): void {
+    if (!this.dialog.openDialogs.length) {
+      this.currentDialogRef = this.dialog.open(WorkItemComponent, {
+        disableClose: true,
+        data: { isEditMode: isEditMode, workItemId: id }
+      });
+
+      this.currentDialogRef.afterClosed().subscribe(() => {
+        this.cleanUrl(isEditMode);
+        this.getWorkItems();
+      });
+    }
+  }
+  cleanUrl(isEditMode: boolean): void {
+    if (isEditMode) {
+      this.router.navigate([], {
+        queryParams: { id: null },
+        queryParamsHandling: 'merge',
+        relativeTo: this.route,
+      });
+    } else {
+      this.router.navigate(['../'], {
+        queryParamsHandling: 'merge',
+        relativeTo: this.route,
+      });
+    }
+  }
+  closeWorkItemModal(): void {
+    this.currentDialogRef?.close();
   }
 
   getStatusClass(status: WorkItemStatus): string {
@@ -87,5 +193,13 @@ export class WorkItemGridComponent implements OnInit {
       default:
         return '';
     }
+  }
+
+  ngOnDestroy(): void {
+    if (this.queryParamsSubscription) {
+      this.queryParamsSubscription.unsubscribe();
+    }
+
+    this.closeWorkItemModal();
   }
 }

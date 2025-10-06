@@ -12,8 +12,14 @@ const routes: Route[] = [
       path: 'layout',
       component: LayoutComponent,
       children: [
-        { path: '', redirectTo: 'workItemGrid', pathMatch: 'full' },
-        { path: 'workItemGrid', component: WorkItemGridComponent }
+        { path: '', redirectTo: 'work-items', pathMatch: 'full' },
+        {
+          path: 'work-items',
+          component: WorkItemGridComponent,
+          children: [
+            { path: 'new', component: WorkItemGridComponent }
+          ]
+        }
       ]
     },
     { path: '', redirectTo: 'layout', pathMatch: 'full' },

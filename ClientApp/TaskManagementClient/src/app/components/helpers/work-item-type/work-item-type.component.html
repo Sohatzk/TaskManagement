@@ -1,0 +1,14 @@
+@switch(workItemType) {
+  @case(WorkItemType.Bug) {
+    <fa-icon [icon]="faBug" class="bug-item"></fa-icon>
+  }
+  @case(WorkItemType.UserStory) {
+    <fa-icon [icon]="faTicket" class="story-item"></fa-icon>
+  }
+  @case(WorkItemType.Task) {
+    <fa-icon [icon]="faSquareCheck" class="task-item"></fa-icon>
+  }
+  @default {
+    <fa-icon [icon]="faBug" class="bug-item"></fa-icon>
+  }
+}

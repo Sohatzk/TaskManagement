@@ -5,7 +5,6 @@ using TaskManagement.Infrastructure;
 using TaskManagement.Infrastructure.Extensions;
 using TaskManagement.Infrastructure.Filters;
 using TaskManagement.Service.Infrastructure;
-using TaskManagement.Service.Users;
 using TaskManagement.Storage;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -46,6 +45,7 @@ builder.Services.AddServices();
 builder.Services.AddValidatorsFromAssemblyContaining(typeof(Program));
 builder.Services.AddAutoMapper(
     [
+        typeof(EntityMapper),
         typeof(DescriptorMapper),
         typeof(ViewMapper),
         typeof(ResponseMapper)

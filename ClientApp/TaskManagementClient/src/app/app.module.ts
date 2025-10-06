@@ -11,10 +11,10 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { RegisterComponent } from "./components/auth/register/register.component";
 import { LoginComponent } from "./components/auth/login/login.component";
 import { WorkItemGridComponent } from "./components/layout/work-item-grid/work-item-grid.component";
-import { MatSelectSearchComponent, NgxMatSelectSearchModule } from "ngx-mat-select-search";
-import { MatFormField } from "@angular/material/form-field";
-import { MatOption, MatSelect } from "@angular/material/select";
 import { WorkItemComponent } from "./components/layout/work-item/work-item.component";
+import { MatDialogModule } from "@angular/material/dialog";
+import { WorkItemService } from "./services/workItemService";
+import { WorkItemTypeComponent } from "./components/helpers/work-item-type/work-item-type.component";
 
 @NgModule({
   declarations: [
@@ -22,19 +22,16 @@ import { WorkItemComponent } from "./components/layout/work-item/work-item.compo
     RegisterComponent,
     LoginComponent,
     WorkItemGridComponent,
-    WorkItemComponent
+    WorkItemComponent,
+    WorkItemTypeComponent
   ],
   imports: [
     BrowserModule,
     AppRoutesModule,
     ReactiveFormsModule,
     FontAwesomeModule,
-    NgxMatSelectSearchModule,
-    MatSelectSearchComponent,
     ReactiveFormsModule,
-    MatFormField,
-    MatSelect,
-    MatOption,
+    MatDialogModule,
     ToastrModule.forRoot({
       timeOut: 3000,
       closeButton: true,
@@ -44,6 +41,7 @@ import { WorkItemComponent } from "./components/layout/work-item/work-item.compo
   ],
   providers: [
     UserService,
+    WorkItemService,
     provideHttpClient(withInterceptors([errorInterceptor]))
   ],  // Register services
   bootstrap: [AppComponent]  // Bootstrap the root component (AppComponent)

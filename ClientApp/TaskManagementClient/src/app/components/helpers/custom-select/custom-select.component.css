@@ -1,0 +1,94 @@
+.custom-select-wrapper {
+  max-width: 200px;
+}
+
+.selected-item,
+.search-input {
+  outline: none;
+}
+
+.selected-item {
+  position: relative;
+  border: 1px solid #8f8f9d;
+  padding: 2px 5px;
+  border-radius: 3px;
+}
+
+.select-item:hover,
+.selected-item:hover {
+  cursor: pointer;
+}
+
+.select-item:hover {
+  background-color: rgb(245, 245, 245);
+}
+
+.selected-item:hover {
+  border: 1px solid #8f8f9d;
+}
+
+li.active,
+li.active:hover{
+  background-color: #d2edfc;
+}
+
+.search-input,
+.search-input:hover {
+  border: #8f8f9d 1px solid;
+  width: 100%;
+}
+
+.search-input {
+  padding: 2px 5px;
+  border-radius: 3px;
+}
+
+.select-list {
+  list-style-type: none;
+  padding: 0;
+}
+
+.select-item {
+  padding: 5px 10px;
+}
+
+.selected-item::after {
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%) rotate(45deg);
+  content: "";
+  width: 10px;
+  height: 10px;
+  border: 2px solid;
+  border-color: transparent #74777f #74777f transparent;
+}
+
+.selected-item.select-opened::after {
+  transform: translateY(-25%) rotate(-135deg);
+}
+
+.custom-select-wrapper .select-content {
+  display: none;
+  box-shadow: 0 5px 15px rgba(0 0 0 / 15%);
+}
+
+.custom-select-wrapper.active-state .select-content {
+  display: block;
+  z-index: 1000;
+  position: absolute;
+  background-color: white;
+}
+
+.search-input-wrapper {
+  padding: 5px;
+}
+
+.select-list-wrapper {
+  max-height: 200px;
+  overflow: auto;
+}
+
+.custom-select-wrapper {
+  position: relative;
+}

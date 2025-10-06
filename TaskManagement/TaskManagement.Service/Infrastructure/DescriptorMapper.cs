@@ -4,9 +4,9 @@ using TaskManagement.Storage.Entities;
 
 namespace TaskManagement.Service.Infrastructure
 {
-    public class DescriptorMapper : Profile
+    public class EntityMapper : Profile
     {
-        public DescriptorMapper()
+        public EntityMapper()
         {
             CreateMap<UserDescriptor, User>()
                 .ForMember(d => d.Id, opt => opt.Ignore());

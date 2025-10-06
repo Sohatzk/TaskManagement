@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using TaskManagement.Service.Users.Descriptors;
+using TaskManagement.Service.Users.Views;
 using TaskManagement.Storage;
 using TaskManagement.Storage.Entities;
 using TaskManagement.Storage.Views.Users;
@@ -30,15 +31,16 @@ namespace TaskManagement.Service.Users
                 .AnyAsync(u => u.Email == email);
         }
 
-        public async Task<List<UserGridView>> GetUsersAsync()
+        public async Task<List<UserSelectView>> GetUsersAsync(CancellationToken cancellationToken)
         {
             return await db.Users
-                .Select(u => new UserGridView
+                .Select(u => new UserSelectView
                 {
+                    Id = u.Id,
                     FirstName = u.FirstName,
                     LastName = u.LastName
                 })
-                .ToListAsync();
+                .ToListAsync(cancellationToken);
         }
 
         public async Task<UserAuthView> CreateAsync(UserDescriptor descriptor)

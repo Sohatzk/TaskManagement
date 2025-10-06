@@ -53,7 +53,7 @@ export class RegisterComponent extends AuthBaseComponent implements OnInit {
     this.authService.register(registerModel).subscribe(
       {
         next: (_isLoggedIn) => {
-            this.router.navigateByUrl('layout/workItemGrid');
+            this.router.navigateByUrl('layout/work-items');
             this.isLoading = false;
         },
         error: () => {

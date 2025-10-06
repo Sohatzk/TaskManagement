@@ -47,10 +47,11 @@ export class LoginComponent extends AuthBaseComponent implements OnInit {
       {
         next: (_isLoggedIn) => {
           this.isLoading = false;
-          this.router.navigateByUrl('layout/workItemGrid');
+          this.router.navigateByUrl('layout/work-items');
         },
         error: () => {
           this.isLoading = false;
+          this.loggedIn = false;
           this.authFailed = true;
         }
       });

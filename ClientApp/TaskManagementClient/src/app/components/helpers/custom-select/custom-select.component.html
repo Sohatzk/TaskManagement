@@ -1,0 +1,15 @@
+<div class="custom-select-wrapper" [class.active-state]="isSelectActive">
+  <div class="selected-item" [class.select-opened]="isSelectActive" (click)="toggleSelectState()" >{{selectedValue}}</div>
+  <div class="select-content">
+    <div class="search-input-wrapper">
+      <input type="text" class="search-input">
+    </div>
+    <div class="select-list-wrapper">
+      <ul class="select-list">
+        @for(selectOption of selectOptions; track selectOption.idValue) {
+          <li (click)="selectItem(selectOption, $event)" class="select-item">{{ selectOption.displayValue }}</li>
+        }
+      </ul>
+    </div>
+  </div>
+</div>

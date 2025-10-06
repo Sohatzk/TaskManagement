@@ -1,6 +1,6 @@
-﻿namespace TaskManagement.Storage.Views.Users
+﻿namespace TaskManagement.Service.Users.Views
 {
-    public class UserGridView
+    public class UserSelectView
     {
         public Guid Id { get; set; }
         public string FirstName { get; set; }

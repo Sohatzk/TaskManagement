@@ -1,6 +1,6 @@
 ﻿namespace TaskManagement.Models.User.Out;
 
-public class UserGridResponse
+public class UserSelectResponse
 {
     public Guid Id { get; set; }
     public string FirstName { get; set; }

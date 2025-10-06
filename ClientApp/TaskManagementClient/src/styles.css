@@ -82,3 +82,7 @@
   .closed-status {
     color: #6c757d;
   }
+
+  .max-width-200 {
+    max-width: 200px;
+  }

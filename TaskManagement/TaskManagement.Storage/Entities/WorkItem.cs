@@ -6,6 +6,8 @@ namespace TaskManagement.Storage.Entities;
 public class WorkItem : BaseEntity<Guid>
 {
     public Guid? UserId { get; set; }
+    
+    public int WorkItemNumber { get; set; }
     public string Title { get; set; }
     public string Description { get; set; }
     public DateTime CreatedAt { get; set; }
