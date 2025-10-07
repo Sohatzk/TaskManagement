@@ -15,6 +15,7 @@ import { WorkItemComponent } from "./components/layout/work-item/work-item.compo
 import { MatDialogModule } from "@angular/material/dialog";
 import { WorkItemService } from "./services/workItemService";
 import { WorkItemTypeComponent } from "./components/helpers/work-item-type/work-item-type.component";
+import { ConfirmationModalComponent } from "./components/helpers/confirmation-modal/confirmation-modal.component";
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { WorkItemTypeComponent } from "./components/helpers/work-item-type/work-
     LoginComponent,
     WorkItemGridComponent,
     WorkItemComponent,
-    WorkItemTypeComponent
+    WorkItemTypeComponent,
+    ConfirmationModalComponent
   ],
   imports: [
     BrowserModule,

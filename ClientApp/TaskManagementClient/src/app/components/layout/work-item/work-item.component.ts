@@ -8,7 +8,7 @@ import { Guid } from "guid-typescript";
 import { WorkItemModel } from "../../../models/workItems/in/workItemModel";
 import { WorkItemType } from "../../../shared/enums/workItemType";
 import { MAT_DIALOG_DATA } from "@angular/material/dialog";
-import { FormBuilder, FormGroup } from "@angular/forms";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { WorkItemStatus } from "../../../shared/enums/workItemStatus";
 import { finalize } from "rxjs";
 
@@ -40,7 +40,7 @@ export class WorkItemComponent implements OnInit {
     this.getUsers();
 
     this.workItemForm = this.fb.group({
-      title: [this.workItem.title],
+      title: [this.workItem.title, [Validators.required]],
       workItemType: [this.workItem.type],
       workItemStatus: [this.workItem.status],
       userId: [this.workItem.userId],

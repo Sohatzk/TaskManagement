@@ -1,0 +1,36 @@
+.wrapper {
+  height: 200px;
+  position: relative;
+  padding: 20px;
+}
+
+.fa-xmark-icon {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
+}
+
+.bottom-buttons-container {
+  position: absolute;
+  bottom: 10px;
+}
+
+.message {
+  height: 100%;
+  margin-top: -40px;
+}
+
+.btn-primary {
+  position: absolute;
+  right: 20px;
+  bottom: 10px;
+}
+
+.btn-secondary {
+  position: absolute;
+  left: 20px;
+  bottom: 10px;
+}
+
+

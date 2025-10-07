@@ -23,6 +23,11 @@
           }
         </div>
         <input type="text" class="max-width-200 title" [value]="workItem.title" formControlName="title"/>
+        @if (workItemForm.controls['title'].errors?.['required']) {
+          <small class="text-danger mb-2">
+            Title is required
+          </small>
+        }
         <div class="d-flex gap-2 second-row-container justify-content-between">
           <div class="d-flex flex-column gap-2">
             <select

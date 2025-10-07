@@ -45,4 +45,11 @@ public class WorkItemController(IWorkItemService workItemService, IMapper mapper
         await workItemService.UpdateWorkItemAsync(descriptor, cancellationToken);
         return Ok();
     }
+    
+    [HttpDelete]
+    public async Task<IActionResult> DeleteWorkItems(Guid[] ids, CancellationToken cancellationToken) 
+    {
+        await workItemService.DeleteWorkItemsAsync(ids, cancellationToken);
+        return Ok();
+    }
 }

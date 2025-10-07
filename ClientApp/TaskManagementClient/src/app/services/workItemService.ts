@@ -28,4 +28,8 @@ export class WorkItemService {
   public updateWorkItem(workItem: WorkItemModel): Observable<void> {
     return this.httpClient.put<void>(baseUrl, workItem);
   }
+
+  public deleteWorkItems(ids: Guid[]): Observable<void> {
+    return this.httpClient.delete<void>(baseUrl, { body: ids });
+  }
 }
