@@ -1,11 +1,11 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { Constants } from "../../constants";
 import { Response } from "../models/response";
 import { RegisterModel } from "../models/auth/out/registerModel";
 import { LoginModel } from "../models/auth/out/loginModel";
+import { environment } from "../../environments/environment";
 
-const baseUrl = `${Constants.baseUrl}/auth`;
+const baseUrl = `${environment.apiUrl}/auth`;
 
 @Injectable({providedIn: 'root'})
 export class AuthService {

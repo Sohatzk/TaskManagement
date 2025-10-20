@@ -1,0 +1,14 @@
+name: Task Management CI
+
+on:
+    workflow_dispatch:
+    push:
+        branches:
+        -main
+
+env:
+    AZURE_WEBAPP_NAME: taskmanagement-app
+    AZURE_WEBAPP_PACKAGE_PATH: "./app/publish"
+    DOTNET_VERSION: "8.x"
+    SOLUTION_PATH: "TaskManagement/TaskManagement.sln"
+    PUBLISH_DIR: "./publish"

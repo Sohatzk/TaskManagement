@@ -62,13 +62,28 @@ app.UseUserInformationMiddleware();
 
 app.UseEndpoints(_ => { });
 
-app.UseSpa(x => x.UseProxyToSpaDevelopmentServer("http://localhost:4200"));
+app.UseStaticFiles();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
+    app.UseSpa(x => x.UseProxyToSpaDevelopmentServer("http://localhost:4200"));
     app.UseSwagger();
     app.UseSwaggerUI();
+}
+else
+{
+    app.UseSpa(spa =>
+    {
+        spa.Options.SourcePath = "ClientApp/TaskManagementClient";
+    });
+}
+
+if (app.Configuration["EF_MIGRATE"]?.ToLower() == "true")
+{
+    using var scope = app.Services.CreateScope();
+    var db = scope.ServiceProvider.GetRequiredService<TaskManagementContext>(); 
+    db.Database.Migrate();
 }
 
 app.UseHttpsRedirection();

@@ -1,0 +1,14 @@
+# .NET build outputs
+bin/
+obj/
+
+# Node / Angular
+ClientApp/TaskManagementClient/node_modules/
+ClientApp/TaskManagementClient/dist/
+
+# Git and editor metadata
+.git/
+.vscode/
+*.log
+*.user
+*.suo
