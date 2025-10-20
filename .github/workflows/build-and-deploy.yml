@@ -8,7 +8,7 @@ on:
 
 env:
     AZURE_WEBAPP_NAME: taskmanagement-app
-    AZURE_WEBAPP_PACKAGE_PATH: "./app/publish"
+    AZURE_WEBAPP_PACKAGE_PATH: "./publish"
     DOTNET_VERSION: "8.x"
     SOLUTION_PATH: "TaskManagement/TaskManagement.sln"
     API_PROJECT_PATH: "TaskManagement/TaskManagement"
@@ -54,10 +54,16 @@ jobs:
                 name: webapp
                 path: ${{env.AZURE_WEBAPP_PACKAGE_PATH}}
                 
+            - name: Azure login (OIDC)
+              uses: azure/login@v2
+              with:
+                client-id: ${{ secrets.AZURE_CLIENT_ID }}
+                tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+                subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+                
             - name: deploy
-              uses: azure/webapps-deploy@v2
+              uses: azure/webapps-deploy@v3
               with:
                 app-name: ${{env.AZURE_WEBAPP_NAME}}
-                publish-profile: ${{secrets.AZURE_WEBAPP_PUBLISH_PROFILE}}
                 package: ${{env.AZURE_WEBAPP_PACKAGE_PATH}}
     
