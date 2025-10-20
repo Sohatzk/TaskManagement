@@ -1,12 +1,12 @@
-﻿import { Constants } from "../../constants";
-import { Injectable } from "@angular/core";
+﻿import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { WorkItemGridModel } from "../models/workItems/in/workItemGridModel";
 import { Guid } from "guid-typescript";
 import { WorkItemModel } from "../models/workItems/in/workItemModel";
+import { environment } from "../../environments/environment";
 
-const baseUrl = `${Constants.baseUrl}/workItem`;
+const baseUrl = `${environment.apiUrl}/workItem`;
 
 @Injectable({providedIn: 'root'})
 export class WorkItemService {
@@ -27,5 +27,9 @@ export class WorkItemService {
 
   public updateWorkItem(workItem: WorkItemModel): Observable<void> {
     return this.httpClient.put<void>(baseUrl, workItem);
+  }
+
+  public deleteWorkItems(ids: Guid[]): Observable<void> {
+    return this.httpClient.delete<void>(baseUrl, { body: ids });
   }
 }

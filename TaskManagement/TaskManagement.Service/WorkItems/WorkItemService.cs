@@ -10,6 +10,7 @@ public class WorkItemService(TaskManagementContext db) : IWorkItemService
     public async Task<List<WorkItemGridView>> GetWorkItemsAsync(CancellationToken cancellationToken)
     {
         return await db.WorkItems
+            .Where(wi => wi.IsDeleted == false)
             .Select(wi => new WorkItemGridView()
             {
                 Id = wi.Id,
@@ -85,6 +86,23 @@ public class WorkItemService(TaskManagementContext db) : IWorkItemService
         workItem.Severity = descriptor.Severity;
 
         db.WorkItems.Update(workItem);
+        await db.SaveChangesAsync(cancellationToken);
+    }
+    
+    public async Task DeleteWorkItemsAsync(Guid[] ids, CancellationToken cancellationToken)
+    {
+        var workItems = await db.WorkItems
+            .Where(wi => ids.Contains(wi.Id))
+            .ToListAsync(cancellationToken);
+
+        foreach (var workItem in workItems)
+        {
+            workItem.IsDeleted = true;
+            workItem.UpdatedAt = DateTime.UtcNow;
+        }
+
+
+        db.WorkItems.UpdateRange(workItems);
         await db.SaveChangesAsync(cancellationToken);
     }
 }

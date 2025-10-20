@@ -9,4 +9,5 @@ public interface IWorkItemService
     Task<WorkItemView> GetWorkItemByIdAsync(Guid id, CancellationToken cancellationToken);
     Task<Guid> CreateWorkItemAsync(WorkItemCreateDescriptor descriptor, CancellationToken cancellationToken);
     Task UpdateWorkItemAsync(WorkItemUpdateDescriptor descriptor, CancellationToken cancellationToken);
+    Task DeleteWorkItemsAsync(Guid[] ids, CancellationToken cancellationToken);
 }

@@ -10,6 +10,7 @@ import { MatDialog, MatDialogRef } from "@angular/material/dialog";
 import { Location } from "@angular/common";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { WorkItemType } from "../../../shared/enums/workItemType";
+import { ConfirmationModalComponent } from "../../helpers/confirmation-modal/confirmation-modal.component";
 
 @Component({
   selector: 'app-work-item-grid',
@@ -193,6 +194,46 @@ export class WorkItemGridComponent implements OnInit, OnDestroy {
       default:
         return '';
     }
+  }
+
+  protected onDeleteSelectedClick(event: MouseEvent): void {
+    event.preventDefault();
+    event.stopPropagation();
+
+    if (this.selectedWorkItems.length === 0) {
+      return;
+    }
+
+    this.dialog.open(ConfirmationModalComponent, {
+      disableClose: true,
+      data: {
+        title: 'Delete Work Items',
+        message: `Are you sure you want to delete the selected work items?`
+      }
+    }).afterClosed().subscribe((isOk) => {
+      if (isOk) {
+        this.deleteSelectedWorkItems();
+      }
+    });
+  }
+
+
+  private deleteSelectedWorkItems(): void {
+    this.isLoading = true;
+
+    this.workItemService.deleteWorkItems(this.selectedWorkItems).subscribe({
+      next: () => {
+        this.selectedWorkItems = [];
+        this.getWorkItems();
+      },
+      error: (err) => {
+        console.error(err);
+        this.isLoading = false;
+      },
+      complete: () => {
+        this.isLoading = false;
+      }
+    });
   }
 
   ngOnDestroy(): void {

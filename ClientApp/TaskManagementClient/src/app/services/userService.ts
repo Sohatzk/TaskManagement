@@ -2,9 +2,9 @@ import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { User } from "../models/users/in/user";
 import { Observable } from "rxjs";
-import { Constants } from "../../constants";
+import { environment } from "../../environments/environment";
 
-const baseUrl = `${Constants.baseUrl}/user`;
+const baseUrl = `${environment.apiUrl}/user`;
 
 @Injectable({providedIn: 'root'})
 export class UserService {
