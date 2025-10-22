@@ -10,7 +10,7 @@ env:
   AZURE_WEBAPP_NAME: taskmanagement-app
   DOCKER_IMAGE_NAME: taskmanagement-app
   DOCKER_REGISTRY: taskmanagement.azurecr.io
-  DOCKER_REGISTRY_NAME: taskmanagement-app
+  DOCKER_REGISTRY_NAME: taskmanagement
   DOCKER_TAG: latest
     
 jobs:             
