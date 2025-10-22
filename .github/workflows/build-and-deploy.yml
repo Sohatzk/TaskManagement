@@ -28,20 +28,11 @@ jobs:
                 client-id: ${{ secrets.AZURE_CLIENT_ID }}
                 tenant-id: ${{ secrets.AZURE_TENANT_ID }}
                 subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+            - name: Log in to Azure Container Registry
+              run: az acr login --name ${{ env.DOCKER_REGISTRY }}
             
-            - name: Log in to Azure Container Registry and build/push image
+            - name: Build and push image
               run: |
-                # Retrieve the ACR login token using the AZ CLI
-                # and the credentials from the azure/login step.
-                TOKEN=$(az acr login --name ${{ env.DOCKER_REGISTRY }} --expose-token --output tsv --query accessToken)
-
-                # Log in the Docker client using the retrieved token
-                docker login ${{ env.DOCKER_REGISTRY }} --username 00000000-0000-0000-0000-000000000000 --password "$TOKEN"
-                
-                # Build the image with the full registry path
                 docker build . -t ${{ env.DOCKER_REGISTRY }}/${{ env.DOCKER_IMAGE_NAME }}:${{ env.DOCKER_TAG }}
-                
-                # Push the image to the registry
                 docker push ${{ env.DOCKER_REGISTRY }}/${{ env.DOCKER_IMAGE_NAME }}:${{ env.DOCKER_TAG }}
-
-    
