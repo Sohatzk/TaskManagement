@@ -10,7 +10,6 @@ env:
   AZURE_WEBAPP_NAME: taskmanagement-app
   DOCKER_IMAGE_NAME: taskmanagement-app
   DOCKER_REGISTRY: taskmanagement.azurecr.io
-  DOCKER_REGISTRY_NAME: taskmanagement
   DOCKER_TAG: latest
     
 jobs:             
@@ -34,7 +33,7 @@ jobs:
               run: |
                 # Retrieve the ACR login token using the AZ CLI
                 # and the credentials from the azure/login step.
-                TOKEN=$(az acr login --name ${{ env.DOCKER_REGISTRY_NAME }} --expose-token --output tsv --query accessToken)
+                TOKEN=$(az acr login --name ${{ env.DOCKER_REGISTRY }} --expose-token --output tsv --query accessToken)
 
                 # Log in the Docker client using the retrieved token
                 docker login ${{ env.DOCKER_REGISTRY }} --username 00000000-0000-0000-0000-000000000000 --password "$TOKEN"
