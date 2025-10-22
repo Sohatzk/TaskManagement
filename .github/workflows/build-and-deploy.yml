@@ -17,6 +17,8 @@ jobs:
     build-and-deploy-container:
         name: Build and deploy Docker container to Azure
         runs-on: ubuntu-latest
+        permissions:
+            id-token: write
         
         steps:
             - uses: actions/checkout@v4
