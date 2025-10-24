@@ -26,6 +26,17 @@ builder.Services.AddAuthentication()
                 };
         });
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("CorsPolicy",
+        builder => builder.WithOrigins(
+                "http://localhost:8080/",
+                "https://taskmanagement-app-g4b7gtaxgdcyhmce.centralus-01.azurewebsites.net")
+            .AllowAnyMethod()
+            .AllowAnyHeader()
+            .AllowCredentials());
+});
+
 builder.Services.AddAuthorization();
 
 // Add services to the container.
