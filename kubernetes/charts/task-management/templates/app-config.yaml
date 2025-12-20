@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: app-config
+  namespace: task-management
+data:
+  POSTGRE_USER: {{ .Values.postgre.user }}
+  POSTGRE_DB: {{ .Values.postgre.db }}
+  ASPNETCORE_ENVIRONMENT: {{ .Values.ASPNETCORE_ENVIRONMENT }}

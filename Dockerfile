@@ -31,6 +31,9 @@ COPY --from=backend-build /app/publish ./
 
 COPY --from=frontend-build /app/dist/task-management-client/browser ./wwwroot
 
+RUN chown -R app:app /app
+USER app
+
 EXPOSE 8080
 
 ENV ASPNETCORE_URLS=http://+:8080

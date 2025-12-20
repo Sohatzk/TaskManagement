@@ -1,0 +1,40 @@
+replicaCount: 10
+
+labels:
+  app: task-management
+
+strategy:
+  type: RollingUpdate
+  maxSurge: 25% #for RollingUpdate type
+  maxUnavailable: 25% #for RollingUpdate type
+
+containers:
+  name: task-management
+  repository: sohatz/task-management
+  tag: v1.0.0
+  pullPolicy: IfNotPresent
+  livenessProbe:
+    initialDelaySeconds: 5
+    periodSeconds: 5
+  readinessProbe:
+    initialDelaySeconds: 5
+    periodSeconds: 5
+
+ingress:
+  ingressClassName: traefik
+  tls:
+    secretName: course-app-tls
+  rules:
+    - host: course-app.local
+      http:
+        paths:
+          - path: /
+            backend:
+              service:
+                name: task-management-service
+
+postgre:
+  user: postgres
+  db: taskManagement
+
+ASPNETCORE_ENVIRONMENT: Production

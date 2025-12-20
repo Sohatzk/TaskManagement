@@ -1,0 +1,26 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: task-management-ingress
+  namespace: task-management
+spec:
+  ingressClassName: {{ .Values.ingress.ingressClassName }}
+  tls:
+    - hosts:
+      {{- range .Values.ingress.rules }}
+        - {{ .host }}
+      {{- end }}
+      secretName: {{ .Values.ingress.tls.secretName }}
+  rules:
+  {{- $release := $.Release }} # save the top-level Release object
+  {{- range .Values.ingress.rules }}
+    - host: {{ .host }}
+      http:
+        paths:
+        {{- range .http.paths }}
+          - path: {{ .path }}
+            backend:
+              service:
+                name: {{ $release.Name }}-{{ .backend.service.name }}
+        {{- end }}
+  {{- end }}

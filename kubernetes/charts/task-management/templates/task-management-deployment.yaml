@@ -1,0 +1,62 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-task-management-deployment
+  namespace: task-management
+  labels:
+    app: {{ .Values.labels.app }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ .Values.labels.app }}
+  strategy:
+    type: {{ .Values.strategy.type }}
+    rollingUpdate:
+      maxSurge: {{ .Values.strategy.maxSurge }}
+      maxUnavailable: {{ .Values.strategy.maxUnavailable }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.labels.app }}
+    spec:
+      containers:
+      {{- range .containers }}
+      - name: {{ .name }}
+        image: {{ .repository }}:{{ .tag }}
+        pullPolicy: {{ .pullPolicy }}
+        ports:
+        - containerPort: 8080
+        env:
+          - name: POSTGRE_USER
+            valueFrom:
+              configMapKeyRef:
+                name: app-config
+                key: POSTGRE_USER
+          - name: POSTGRE_DB
+            valueFrom:
+              configMapKeyRef:
+                name: app-config
+                key: POSTGRE_DB
+          - name: POSTGRE_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: task-management-secret
+                key: POSTGRE_PASSWORD
+          - name: ASPNETCORE_ENVIRONMENT
+            valueFrom:
+              configMapKeyRef:
+                name: app-config
+                key: ASPNETCORE_ENVIRONMENT
+        livenessProbe:
+          tcpSocket:
+            port: 8080
+          initialDelaySeconds: {{ .livenessProbe.initialDelaySeconds }}
+          periodSeconds: {{ .livenessProbe.periodSeconds }}
+        readinessProbe:
+          httpGet:
+            path: /healthz
+            port: 8080
+          initialDelaySeconds: {{ .readinessProbe.initialDelaySeconds }}
+          periodSeconds: {{ .readinessProbe.periodSeconds }}
+      {{- end }}
