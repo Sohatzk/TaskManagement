@@ -5,20 +5,20 @@ labels:
 
 strategy:
   type: RollingUpdate
-  maxSurge: 25% #for RollingUpdate type
-  maxUnavailable: 25% #for RollingUpdate type
+  maxSurge: 25% # for RollingUpdate type
+  maxUnavailable: 25% # for RollingUpdate type
 
 containers:
-  name: task-management
-  repository: sohatz/task-management
-  tag: v1.0.0
-  pullPolicy: IfNotPresent
-  livenessProbe:
-    initialDelaySeconds: 5
-    periodSeconds: 5
-  readinessProbe:
-    initialDelaySeconds: 5
-    periodSeconds: 5
+  - name: task-management
+    repository: sohatz/task-management
+    tag: v1.0.0
+    pullPolicy: IfNotPresent
+    livenessProbe:
+      initialDelaySeconds: 5
+      periodSeconds: 5
+    readinessProbe:
+      initialDelaySeconds: 5
+      periodSeconds: 5
 
 ingress:
   ingressClassName: traefik
