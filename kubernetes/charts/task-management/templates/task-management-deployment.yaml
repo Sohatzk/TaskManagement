@@ -21,7 +21,7 @@ spec:
         app: {{ .Values.labels.app }}
     spec:
       containers:
-      {{- range .containers }}
+      {{- range .Values.containers }}
       - name: {{ .name }}
         image: {{ .repository }}:{{ .tag }}
         pullPolicy: {{ .pullPolicy }}
