@@ -12,7 +12,7 @@ spec:
       version: '1.0.*'
       sourceRef:
         kind: GitRepository
-        name: TaskManagement
+        name: flux-system
       interval: 5m
   releaseName: tm-release
   install:
