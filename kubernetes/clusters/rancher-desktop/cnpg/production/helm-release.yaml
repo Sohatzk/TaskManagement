@@ -12,15 +12,15 @@ spec:
     spec:
       chart: ./kubernetes/charts/cnpg
       version: '1.0.*'
+      valuesFrom:
+      # Values file to merge in,
+      # expected to be a relative path in the chart directory
+      - chartFileRef:
+          path: values-dev.yaml
       sourceRef:
         kind: GitRepository
         name: flux-system
       interval: 5m
-  valuesFrom:
-    # Values file to merge in,
-    # expected to be a relative path in the chart directory
-      - chartFileRef:
-        path: values-prod.yaml
   install:
     createNamespace: true
     remediation:
