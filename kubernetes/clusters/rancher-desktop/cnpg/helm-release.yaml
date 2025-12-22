@@ -8,11 +8,11 @@ spec:
   timeout: 5m
   chart:
     spec:
-      chart: https://github.com/cloudnative-pg/charts/tree/main/charts/cloudnative-pg
+      chart: cnpg-repo
       version: '0.27.*'
       sourceRef:
-        kind: GitRepository
-        name: flux-system
+        kind: HelmRepository
+        name: cnpg-repo
       interval: 5m
   releaseName: cnpg-release
   install:
