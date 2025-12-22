@@ -6,15 +6,17 @@ metadata:
 spec:
   interval: 15m
   timeout: 5m
-  targetNamespace: cnpg-system
+  targetNamespace: development
   releaseName: cnpg-release
   chart:
     spec:
-      chart: cloudnative-pg
-      version: '0.27.*'
+      chart: ./kubernetes/charts/cnpg
+      version: '1.0.*'
+      valuesFiles:
+        - values-dev.yaml
       sourceRef:
-        kind: HelmRepository
-        name: cnpg-repo
+        kind: GitRepository
+        name: flux-system
       interval: 5m
   install:
     createNamespace: true

@@ -1,0 +1,5 @@
+namespace: development
+
+instances: 1
+
+size: 1Gi

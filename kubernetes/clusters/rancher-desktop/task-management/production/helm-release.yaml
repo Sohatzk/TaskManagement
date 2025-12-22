@@ -1,17 +1,20 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: task-management-helm-release
+  name: helm-release-prod
   namespace: flux-system
 spec:
   interval: 15m
   timeout: 5m
-  targetNamespace: task-management
+  targetNamespace: production
   releaseName: tm-release
   chart:
     spec:
       chart: ./kubernetes/charts/task-management
       version: '1.0.*'
+      valuesFiles:
+        - values.yaml
+        - values-prod.yaml
       sourceRef:
         kind: GitRepository
         name: flux-system

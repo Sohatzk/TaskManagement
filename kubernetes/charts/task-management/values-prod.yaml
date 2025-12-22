@@ -1,0 +1,23 @@
+namespace: production
+
+replicaCount: 3
+
+strategy:
+  type: RollingUpdate
+  maxSurge:
+  maxUnavailable: 25%
+
+ingress:
+  ingressClassName: traefik
+  tls:
+    secretName: course-app-tls
+  rules:
+    - host: course-app.prod.local
+      http:
+        paths:
+          - path: /
+            backend:
+              service:
+                name: task-management-service
+
+ASPNETCORE_ENVIRONMENT: Production

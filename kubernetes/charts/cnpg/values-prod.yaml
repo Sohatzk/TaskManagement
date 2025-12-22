@@ -1,0 +1,5 @@
+namespace: production
+
+instances: 3
+
+size: 1Gi

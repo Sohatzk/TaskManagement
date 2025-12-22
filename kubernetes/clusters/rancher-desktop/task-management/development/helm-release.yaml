@@ -1,0 +1,32 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: helm-release-dev
+  namespace: flux-system
+spec:
+  interval: 15m
+  timeout: 5m
+  targetNamespace: development
+  releaseName: tm-release
+  chart:
+    spec:
+      chart: ./kubernetes/charts/task-management
+      version: '1.0.*'
+      valuesFiles:
+        - values.yaml
+        - values-dev.yaml
+      sourceRef:
+        kind: GitRepository
+        name: flux-system
+      interval: 5m
+  install:
+    createNamespace: true
+    remediation:
+      retries: 3
+  upgrade:
+    remediation:
+      retries: 3
+  test:
+    enable: true
+  driftDetection:
+    mode: enabled

@@ -1,0 +1,21 @@
+namespace: development
+
+replicaCount: 1
+
+strategy:
+  type: Recreate
+
+ingress:
+  ingressClassName: traefik
+  tls:
+    secretName: course-app-tls
+  rules:
+    - host: course-app.dev.local
+      http:
+        paths:
+          - path: /
+            backend:
+              service:
+                name: task-management-service
+
+ASPNETCORE_ENVIRONMENT: Development
