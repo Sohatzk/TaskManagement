@@ -12,9 +12,13 @@ spec:
     spec:
       chart: ./kubernetes/charts/task-management
       version: '1.0.*'
-      valuesFiles:
-        - values.yaml
-        - values-dev.yaml
+      valuesFrom:
+      # Values file to merge in,
+      # expected to be a relative path in the chart directory
+      - chartFileRef:
+          path: values.yaml
+      - chartFileRef:
+          path: values-dev.yaml
       sourceRef:
         kind: GitRepository
         name: flux-system
