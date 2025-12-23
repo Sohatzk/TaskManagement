@@ -7,10 +7,8 @@ strategy:
 
 ingress:
   ingressClassName: traefik
-  tls:
-    secretName: course-app-tls
   rules:
-    - host: course-app.dev.local
+    - host: task-management.dev.local
       http:
         paths:
           - path: /

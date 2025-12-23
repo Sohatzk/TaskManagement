@@ -4,15 +4,8 @@ metadata:
   name: task-management-ingress
   namespace: {{ .Values.namespace }}
 spec:
-  ingressClassName: {{ .Values.ingress.ingressClassName }}
-  tls:
-    - hosts:
-      {{- range .Values.ingress.rules }}
-        - {{ .host }}
-      {{- end }}
-      secretName: {{ .Values.ingress.tls.secretName }}
+  ingressClassName: traefik
   rules:
-  {{- $release := $.Release }} # save the top-level Release object
   {{- range .Values.ingress.rules }}
     - host: {{ .host }}
       http:
@@ -22,7 +15,7 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: {{ $release.Name }}-{{ .backend.service.name }}
+                name: {{ .backend.service.name }}
                 port:
                   number: 8080
         {{- end }}
