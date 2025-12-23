@@ -12,14 +12,13 @@ spec:
     spec:
       chart: ./kubernetes/charts/cnpg
       version: '1.0.*'
+      valuesFiles:
+        - values.yaml
+        - values-dev.yaml
       sourceRef:
         kind: GitRepository
         name: flux-system
       interval: 5m
-  valuesFrom:
-    - kind: ConfigMap
-      name: cnpg-dev-values
-      valuesKey: values-dev.yaml
   install:
     createNamespace: true
     remediation:
