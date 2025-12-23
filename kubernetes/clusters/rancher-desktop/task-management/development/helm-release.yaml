@@ -7,10 +7,7 @@ spec:
   interval: 15m
   timeout: 10m
   targetNamespace: development
-  releaseName: tm-release
-  dependsOn:
-    - name: cnpg-helm-release-dev
-      namespace: flux-system
+  releaseName: tm-release-dev
   chart:
     spec:
       chart: ./kubernetes/charts/task-management

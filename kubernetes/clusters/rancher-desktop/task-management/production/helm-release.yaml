@@ -4,13 +4,11 @@ metadata:
   name: tm-helm-release-prod
   namespace: flux-system
 spec:
+  suspend: true
   interval: 15m
   timeout: 10m
   targetNamespace: production
-  releaseName: tm-release
-  dependsOn:
-    - name: cnpg-helm-release-prod
-      namespace: flux-system
+  releaseName: tm-release-prod
   chart:
     spec:
       chart: ./kubernetes/charts/task-management

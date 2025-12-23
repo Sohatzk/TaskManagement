@@ -7,7 +7,7 @@ spec:
   interval: 15m
   timeout: 5m
   targetNamespace: production
-  releaseName: cnpg-release
+  releaseName: cnpg-release-prod
   chart:
     spec:
       chart: ./kubernetes/charts/cnpg
