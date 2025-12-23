@@ -5,12 +5,12 @@ containers:
   - name: task-management
     repository: sohatz/task-management
     tag: v1.0.1
-    pullPolicy: IfNotPresent
+    pullPolicy: Always
     livenessProbe:
-      initialDelaySeconds: 30
+      initialDelaySeconds: 10
       periodSeconds: 5
     readinessProbe:
-      initialDelaySeconds: 30
+      initialDelaySeconds: 10
       periodSeconds: 5
 
 ASPNETCORE_ENVIRONMENT: Development
