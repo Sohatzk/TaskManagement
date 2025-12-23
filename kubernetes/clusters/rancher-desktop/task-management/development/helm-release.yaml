@@ -9,8 +9,8 @@ spec:
   targetNamespace: development
   releaseName: tm-release
   dependsOn:
-    - name: postgres-db
-      namespace: development
+    - name: cnpg-helm-release-dev
+      namespace: flux-system
   chart:
     spec:
       chart: ./kubernetes/charts/task-management
