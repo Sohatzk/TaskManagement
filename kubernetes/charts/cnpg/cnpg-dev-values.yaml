@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: cnpg-dev-values
+  namespace: flux-system
+data:
+  values-dev.yaml: |
+    namespace: development
+    instances: 1
+    size: 1Gi
