@@ -30,6 +30,10 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("CorsPolicy",
         builder => builder.WithOrigins(
+                "http://task-management.local",
+                "https://task-management.local",
+                "http://task-management.dev.local",
+                "https://task-management.dev.local",
                 "http://localhost:30739/",
                 "https://localhost:44385/",
                 "http://localhost:4200/",
