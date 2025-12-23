@@ -13,8 +13,8 @@ spec:
       chart: ./kubernetes/charts/task-management
       version: '1.0.*'
       valuesFiles:
-        - values.yaml
-        - values-prod.yaml
+        - kubernetes/charts/task-management/values.yaml
+        - kubernetes/charts/task-management/values-prod.yaml
       sourceRef:
         kind: GitRepository
         name: flux-system
