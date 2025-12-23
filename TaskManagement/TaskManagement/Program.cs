@@ -28,11 +28,13 @@ builder.Services.AddAuthentication()
 
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("CorsPolicy",
-        builder => builder
-            .AllowAnyOrigin()
+    options.AddPolicy("AllowEverything", builder =>
+    {
+        builder.SetIsOriginAllowed(origin => true) // This is the "Any Link" magic
             .AllowAnyMethod()
-            .AllowAnyHeader());
+            .AllowAnyHeader()
+            .AllowCredentials(); // Allows cookies/auth headers
+    });
         // .WithOrigins(
         // "http://task-management.local",
         // "https://task-management.local",
