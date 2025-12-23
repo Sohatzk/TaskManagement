@@ -7,10 +7,10 @@ containers:
     tag: v1.0.1
     pullPolicy: IfNotPresent
     livenessProbe:
-      initialDelaySeconds: 5
+      initialDelaySeconds: 30
       periodSeconds: 5
     readinessProbe:
-      initialDelaySeconds: 5
+      initialDelaySeconds: 30
       periodSeconds: 5
 
 ASPNETCORE_ENVIRONMENT: Development
