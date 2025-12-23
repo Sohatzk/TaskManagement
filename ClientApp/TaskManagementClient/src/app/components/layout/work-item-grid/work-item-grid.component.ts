@@ -11,6 +11,7 @@ import { Location } from "@angular/common";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { WorkItemType } from "../../../shared/enums/workItemType";
 import { ConfirmationModalComponent } from "../../helpers/confirmation-modal/confirmation-modal.component";
+import { StressService } from '../../../services/stressService';
 
 @Component({
   selector: 'app-work-item-grid',
@@ -21,13 +22,14 @@ import { ConfirmationModalComponent } from "../../helpers/confirmation-modal/con
 export class WorkItemGridComponent implements OnInit, OnDestroy {
   private queryParamsSubscription!: Subscription;
   private dialog = inject(MatDialog);
-  private currentDialogRef: MatDialogRef<WorkItemComponent>|null = null;
+  private currentDialogRef: MatDialogRef<WorkItemComponent> | null = null;
   protected workItems: WorkItemGridModel[] = [];
   protected selectedWorkItems: Guid[] = [];
   protected workItemForm!: FormGroup;
   protected isLoading: boolean = false;
   constructor(
     private workItemService: WorkItemService,
+    private stressService: StressService,
     private router: Router,
     private route: ActivatedRoute,
     private location: Location,
@@ -59,7 +61,7 @@ export class WorkItemGridComponent implements OnInit, OnDestroy {
         email: ['', [Validators.required, Validators.email]],
         password: ['', [Validators.required, Validators.minLength(10)]],
         repeatPassword: ['', [Validators.required, Validators.minLength(10)]],
-        rememberMe: [ false ]
+        rememberMe: [false]
       });
   }
 
@@ -85,7 +87,7 @@ export class WorkItemGridComponent implements OnInit, OnDestroy {
     this.selectedWorkItems.push(id);
   }
 
-  selectAllWorkItems() : void {
+  selectAllWorkItems(): void {
     if (this.selectedWorkItems.length === this.workItems.length) {
       this.selectedWorkItems = [];
       return;
@@ -94,7 +96,7 @@ export class WorkItemGridComponent implements OnInit, OnDestroy {
     this.selectedWorkItems = this.workItems.map(item => item.id);
   }
 
-  createWorkItemClicked(event: Event|null = null) : void {
+  createWorkItemClicked(event: Event | null = null): void {
     event?.preventDefault();
     event?.stopPropagation();
 
@@ -114,7 +116,7 @@ export class WorkItemGridComponent implements OnInit, OnDestroy {
   }
 
 
-  editWorkItemClicked(id: Guid, event: Event|null = null) : void {
+  editWorkItemClicked(id: Guid, event: Event | null = null): void {
     event?.preventDefault();
     event?.stopPropagation();
 
@@ -133,7 +135,7 @@ export class WorkItemGridComponent implements OnInit, OnDestroy {
       });
   }
 
-  openWorkItemModal(isEditMode: boolean, id: Guid|null = null): void {
+  openWorkItemModal(isEditMode: boolean, id: Guid | null = null): void {
     if (!this.dialog.openDialogs.length) {
       this.currentDialogRef = this.dialog.open(WorkItemComponent, {
         disableClose: true,
@@ -146,6 +148,7 @@ export class WorkItemGridComponent implements OnInit, OnDestroy {
       });
     }
   }
+
   cleanUrl(isEditMode: boolean): void {
     if (isEditMode) {
       this.router.navigate([], {
@@ -214,6 +217,17 @@ export class WorkItemGridComponent implements OnInit, OnDestroy {
       if (isOk) {
         this.deleteSelectedWorkItems();
       }
+    });
+  }
+
+
+  protected onStressClick(): void {
+    this.stressService.stress().subscribe({
+      next: (_) => {
+      },
+      error: (_) => {
+        console.error();
+      },
     });
   }
 

@@ -9,6 +9,7 @@
   </form>
   <button (click)="createWorkItemClicked($event)" type="button" class="btn btn-primary">New Work Item</button>
   <button (click)="onDeleteSelectedClick($event)" type="button" class="btn btn-danger">Delete</button>
+  <button (click)="onStressClick()" type="button" class="btn btn btn-secondary">Stress</button>
 </div>
 <table class="main-table table table-striped"[ngClass]="{'spinner-wrapper': isLoading}">
   @if (isLoading) {
