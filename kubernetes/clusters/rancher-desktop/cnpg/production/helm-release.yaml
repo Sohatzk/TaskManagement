@@ -13,7 +13,7 @@ spec:
       chart: ./kubernetes/charts/cnpg
       version: '1.0.*'
       valuesFiles:
-        - values-prod.yaml
+        - kubernetes/charts/cnpg/values-prod.yaml
       sourceRef:
         kind: GitRepository
         name: flux-system
