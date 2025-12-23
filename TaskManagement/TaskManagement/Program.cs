@@ -77,22 +77,23 @@ app.UseUserInformationMiddleware();
 
 app.UseEndpoints(_ => { });
 
+// // Configure the HTTP request pipeline.
+// if (app.Environment.IsDevelopment())
+// {
+//     app.UseSpa(x => x.UseProxyToSpaDevelopmentServer("http://localhost:4200"));
+//     app.UseSwagger();
+//     app.UseSwaggerUI();
+// }
+// else
+// {
+//
+// }
 app.UseStaticFiles();
+app.UseSpa(spa =>
+{
+    spa.Options.SourcePath = "ClientApp/TaskManagementClient";
+});
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseSpa(x => x.UseProxyToSpaDevelopmentServer("http://localhost:4200"));
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
-else
-{
-    app.UseSpa(spa =>
-    {
-        spa.Options.SourcePath = "ClientApp/TaskManagementClient";
-    });
-}
 
 if (app.Configuration["EF_MIGRATE"]?.ToLower() == "true")
 {
