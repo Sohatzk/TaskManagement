@@ -3,6 +3,10 @@ kind: Ingress
 metadata:
   name: task-management-ingress
   namespace: {{ .Values.namespace }}
+  dependsOn:
+    - kind: Service
+      name: task-management-service
+      namespace: {{ .Values.namespace }}
 spec:
   ingressClassName: traefik
   rules:
