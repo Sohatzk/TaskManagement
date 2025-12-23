@@ -13,6 +13,7 @@ spec:
       chart: ./kubernetes/charts/cnpg
       version: '1.0.*'
       valuesFiles:
+        - values.yaml
         - values-dev.yaml
       sourceRef:
         kind: GitRepository
