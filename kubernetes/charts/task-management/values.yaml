@@ -4,7 +4,7 @@ labels:
 containers:
   - name: task-management
     repository: sohatz/task-management
-    tag: v1.0.0
+    tag: v1.0.1
     pullPolicy: IfNotPresent
     livenessProbe:
       initialDelaySeconds: 5
