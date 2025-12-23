@@ -32,8 +32,8 @@ spec:
         env:
           - name: POSTGRES_HOST
             valueFrom:
-              serviceKeyRef:
-                name: postgres-db-app # Service name created by CNPG operator
+              secretKeyRef:
+                name: postgres-db-app
                 key: host
           - name: POSTGRES_DB
             valueFrom:
