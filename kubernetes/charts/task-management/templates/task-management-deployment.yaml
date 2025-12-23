@@ -57,15 +57,15 @@ spec:
                 key: ASPNETCORE_ENVIRONMENT
           - name: ConnectionStrings__TaskManagementConnectionString
             value: {{ include "taskmanagement.connectionString" . }}
-        livenessProbe:
-          tcpSocket:
-            port: 8080
-          initialDelaySeconds: {{ .livenessProbe.initialDelaySeconds }}
-          periodSeconds: {{ .livenessProbe.periodSeconds }}
-        readinessProbe:
-          httpGet:
-            path: /healthz
-            port: 8080
+        # livenessProbe:
+        #   tcpSocket:
+        #     port: 8080
+        #   initialDelaySeconds: {{ .livenessProbe.initialDelaySeconds }}
+        #   periodSeconds: {{ .livenessProbe.periodSeconds }}
+        # readinessProbe:
+        #   httpGet:
+        #     path: /healthz
+        #     port: 8080
           initialDelaySeconds: {{ .readinessProbe.initialDelaySeconds }}
           periodSeconds: {{ .readinessProbe.periodSeconds }}
       {{- end }}
